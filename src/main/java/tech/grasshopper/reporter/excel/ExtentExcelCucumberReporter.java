@@ -64,39 +64,12 @@ public class ExtentExcelCucumberReporter extends AbstractFileReporter implements
 	private void flush(ReportEntity value) {
 		try {
 			report = value.getReport();
-			final String reportPath = getFileNameAsExt(FILE_NAME, new String[] { ".xlsx" });
+			final String reportXls = getFileNameAsExt(FILE_NAME, new String[] { ".xlsx" });
 
 			ReportData reportData = new ReportData();
 			reportData.createData(report);
-			List<Feature> features = reportData.getFeatures();
 
-			/*
-			 * features.forEach(f -> { System.out.println(f.getName());
-			 * 
-			 * f.getScenarios().forEach(sc -> { System.out.println(sc.getName());
-			 * 
-			 * sc.getBefore().forEach(h -> System.out.println(h.getName()));
-			 * 
-			 * sc.getSteps().forEach(st -> { st.getBefore().forEach(h ->
-			 * System.out.println(h.getName())); System.out.println(st.getName());
-			 * st.getAfter().forEach(h -> System.out.println(h.getName())); });
-			 * 
-			 * sc.getAfter().forEach(h -> System.out.println(h.getName())); }); });
-			 * 
-			 * System.out.println(reportData.getDashboardData());
-			 * 
-			 * System.out.println(reportData.getFailSkipData());
-			 * 
-			 * System.out.println(reportData.getTagData());
-			 * 
-			 * System.out.println(reportData.getFeatureData());
-			 * 
-			 * System.out.println(reportData.getScenarioData());
-			 */
-
-			XSSFWorkbook templateFile = new XSSFWorkbook("src/main/java/report template.xlsx");
-
-			templateFile.close();
+			
 
 		} catch (Exception e) {
 			disposable.dispose();
