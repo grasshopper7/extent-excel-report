@@ -1,14 +1,10 @@
 package tech.grasshopper.excel.report.sheets.dashboard;
 
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.extent.data.ReportData;
+import tech.grasshopper.excel.report.sheets.Sheet;
 
-@Data
 @SuperBuilder
-public abstract class DashboardSheet {
+public abstract class DashboardSheet extends Sheet {
 
 	protected static final String DASHBOARD_ALL_SHEET = "";
 
@@ -20,9 +16,4 @@ public abstract class DashboardSheet {
 
 	protected static final String DASHBOARD_DATA_SHEET = "";
 
-	protected ReportData reportData;
-
-	protected XSSFWorkbook xssfWorkbook;
-
-	public abstract void createDashboard();
 }

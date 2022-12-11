@@ -1,17 +1,10 @@
 package tech.grasshopper.excel.report.sheets.dashboard;
 
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-
-import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.Sheet;
-import tech.grasshopper.extent.data.ReportData;
 
-@Builder
-public class DashboardDataSheet implements Sheet {
-
-	private ReportData reportData;
-
-	private XSSFSheet sheet;
+@SuperBuilder
+public class DashboardDataSheet extends Sheet {
 
 	@Override
 	public void updateSheet() {

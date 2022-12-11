@@ -23,7 +23,7 @@ public abstract class ReportWorkbook {
 		try (XSSFWorkbook templateXls = new XSSFWorkbook(reportWorkbook.templateReportLocation())) {
 			reportWorkbook.setXssfWorkbook(templateXls);
 
-			reportWorkbook.createSheets();
+			reportWorkbook.updateSheets();
 		}
 	}
 
@@ -44,5 +44,5 @@ public abstract class ReportWorkbook {
 
 	protected abstract String templateReportLocation();
 
-	protected abstract void createSheets();
+	protected abstract void updateSheets();
 }

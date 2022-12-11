@@ -12,7 +12,7 @@ public class ExecutionAndFailSkipDataReport extends ReportWorkbook {
 	}
 
 	@Override
-	protected void createSheets() {
+	protected void updateSheets() {
 
 	}
 

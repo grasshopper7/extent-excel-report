@@ -1,8 +1,18 @@
 package tech.grasshopper.excel.report.sheets;
 
-public interface Sheet {
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-	static final String DATA = "Data";
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import tech.grasshopper.extent.data.ReportData;
 
-	void updateSheet();
+@Data
+@SuperBuilder
+public abstract class Sheet {
+
+	protected ReportData reportData;
+
+	protected XSSFWorkbook xssfWorkbook;
+
+	protected abstract void updateSheet();
 }

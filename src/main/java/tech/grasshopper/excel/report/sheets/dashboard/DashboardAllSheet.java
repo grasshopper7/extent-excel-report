@@ -9,7 +9,7 @@ import tech.grasshopper.excel.report.sheets.dashboard.components.BasicDBComponen
 public class DashboardAllSheet extends DashboardSheet {
 
 	@Override
-	public void createDashboard() {
+	public void updateSheet() {
 
 		XSSFSheet dbSheet = xssfWorkbook.getSheet(DASHBOARD_ALL_SHEET);
 
