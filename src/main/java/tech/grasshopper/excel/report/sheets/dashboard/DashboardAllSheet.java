@@ -24,6 +24,6 @@ public class DashboardAllSheet extends DashboardSheet {
 				.build().createComponent();
 
 		FailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
-				.featureBarChartIndex(4).scenarioBarChartIndex(5).build().createComponent();
+				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell("B51").build().createComponent();
 	}
 }

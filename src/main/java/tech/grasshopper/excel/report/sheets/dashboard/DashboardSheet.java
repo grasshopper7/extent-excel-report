@@ -34,6 +34,16 @@ public abstract class DashboardSheet extends Sheet {
 	public static final String TAG_TABLE_SCENARIO_PASSED_CELL = "B20";
 	public static final String TAG_TABLE_SCENARIO_FAILED_CELL = "C20";
 	public static final String TAG_TABLE_SCENARIO_SKIPPED_CELL = "D20";
-	public static final String FEATURE_FAIL_SKIP_TABLE_CELL = "H20";
-	public static final String SCENARIO_FAIL_SKIP_TABLE_CELL = "P20";
+
+	public static final String FEATURE_FAIL_SKIP_TABLE_NAME_CELL = "H20";
+	public static final String FEATURE_FAIL_SKIP_TABLE_STATUS_CELL = "I20";
+	public static final String FEATURE_FAIL_SKIP_TABLE_SCENARIO_PASSED_CELL = "J20";
+	public static final String FEATURE_FAIL_SKIP_TABLE_SCENARIO_FAILED_CELL = "K20";
+	public static final String FEATURE_FAIL_SKIP_TABLE_SCENARIO_SKIPPED_CELL = "L20";
+
+	public static final String SCENARIO_FAIL_SKIP_TABLE_NAME_CELL = "P20";
+	public static final String SCENARIO_FAIL_SKIP_TABLE_STATUS_CELL = "Q20";
+	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL = "R20";
+	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL = "S20";
+	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL = "T20";
 }

@@ -1,5 +1,7 @@
 package tech.grasshopper.excel.report.workbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,6 +26,10 @@ public abstract class ReportWorkbook {
 			reportWorkbook.setXssfWorkbook(templateXls);
 
 			reportWorkbook.updateSheets();
+
+			try (FileOutputStream fileOut = new FileOutputStream(new File("src/main/resources/report.xlsx"))) {
+				templateXls.write(fileOut);
+			}
 		}
 	}
 

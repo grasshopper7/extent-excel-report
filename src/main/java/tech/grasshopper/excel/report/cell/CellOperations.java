@@ -15,13 +15,35 @@ public class CellOperations {
 	public void writeStringValue(int row, int col, String cellValue) {
 
 		CellReference cellRef = new CellReference(row, col);
-		Cell cell = fetchOrCreateCell(cellRef);
-		cell.setCellValue(cellValue);
+		writeStringValue(cellRef, cellValue);
 	}
 
 	public void writeStringValue(String cellName, String cellValue) {
 
 		CellReference cellRef = new CellReference(cellName);
+		writeStringValue(cellRef, cellValue);
+	}
+
+	public void writeStringValue(CellReference cellRef, String cellValue) {
+
+		Cell cell = fetchOrCreateCell(cellRef);
+		cell.setCellValue(cellValue);
+	}
+
+	public void writeNumericValue(int row, int col, int cellValue) {
+
+		CellReference cellRef = new CellReference(row, col);
+		writeNumericValue(cellRef, cellValue);
+	}
+
+	public void writeNumericValue(String cellName, int cellValue) {
+
+		CellReference cellRef = new CellReference(cellName);
+		writeNumericValue(cellRef, cellValue);
+	}
+
+	public void writeNumericValue(CellReference cellRef, int cellValue) {
+
 		Cell cell = fetchOrCreateCell(cellRef);
 		cell.setCellValue(cellValue);
 	}

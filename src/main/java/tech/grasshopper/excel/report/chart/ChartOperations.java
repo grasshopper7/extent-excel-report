@@ -3,6 +3,7 @@ package tech.grasshopper.excel.report.chart;
 import java.util.List;
 
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
@@ -57,6 +58,14 @@ public class ChartOperations {
 		public CellRangeAddress convertToCellRange() {
 
 			return new CellRangeAddress(firstRow, lastRow, firstColumn, lastColumn);
+		}
+
+		public static ChartDataSeriesRange convertCellReferenceToChartDataRange(String cellStr, int rows) {
+
+			CellReference cellRef = new CellReference(cellStr);
+
+			return ChartDataSeriesRange.builder().firstRow(cellRef.getRow()).lastRow(cellRef.getRow() + (rows - 1))
+					.firstColumn(cellRef.getCol()).lastColumn(cellRef.getCol()).build();
 		}
 	}
 }

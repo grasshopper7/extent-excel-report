@@ -24,11 +24,11 @@ public class TableOperations<T> {
 
 		for (int i = startRow; i < endRow; i++) {
 
-			List<String> rowValue = rowValueTransformer.apply(tableData.get(i));
+			List<String> rowValue = rowValueTransformer.apply(tableData.get(i - startRow));
 			int startCol = cellRef.getCol();
 
 			for (String value : rowValue) {
-				dbDataCellOperations.writeStringValue(startRow, startCol, value);
+				dbDataCellOperations.writeStringValue(i, startCol, value);
 				startCol++;
 			}
 		}
