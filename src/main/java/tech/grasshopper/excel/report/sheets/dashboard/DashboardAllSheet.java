@@ -4,6 +4,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.dashboard.components.BasicDBComponent;
+import tech.grasshopper.excel.report.sheets.dashboard.components.FailSkipDBComponent;
+import tech.grasshopper.excel.report.sheets.dashboard.components.TagDBComponent;
 
 @SuperBuilder
 public class DashboardAllSheet extends DashboardSheet {
@@ -15,6 +17,13 @@ public class DashboardAllSheet extends DashboardSheet {
 
 		XSSFSheet dbDataSheet = xssfWorkbook.getSheet(DASHBOARD_DATA_SHEET);
 
-		BasicDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).build().createComponent();
+		BasicDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData).build()
+				.createComponent();
+
+		TagDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData).tagBarChartIndex(3)
+				.build().createComponent();
+
+		FailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
+				.featureBarChartIndex(4).scenarioBarChartIndex(5).build().createComponent();
 	}
 }

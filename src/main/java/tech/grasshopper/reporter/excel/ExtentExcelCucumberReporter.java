@@ -14,6 +14,7 @@ import com.aventstack.extentreports.reporter.AbstractFileReporter;
 
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import tech.grasshopper.excel.report.workbook.ReportWorkbook;
 import tech.grasshopper.extent.data.ReportData;
 import tech.grasshopper.extent.data.pojo.Feature;
 
@@ -69,7 +70,7 @@ public class ExtentExcelCucumberReporter extends AbstractFileReporter implements
 			ReportData reportData = new ReportData();
 			reportData.createData(report);
 
-			
+			ReportWorkbook.createReport(reportData);
 
 		} catch (Exception e) {
 			disposable.dispose();

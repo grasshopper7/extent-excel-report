@@ -5,7 +5,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class DashboardBasicAndFailSkipSheet extends DashboardSheet {
 	@Override
-	protected void updateSheet() {
+	public void updateSheet() {
 		// TODO Auto-generated method stub
 
 	}

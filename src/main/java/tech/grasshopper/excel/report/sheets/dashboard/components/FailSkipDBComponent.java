@@ -4,9 +4,13 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 public class FailSkipDBComponent extends DBComponent {
-	
+
+	private int featureBarChartIndex;
+
+	private int scenarioBarChartIndex;
+
 	@Override
-	protected void createComponent() {
+	public void createComponent() {
 
 	}
 

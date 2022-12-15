@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.extent.data.ReportData;
 
 @Data
 @SuperBuilder
@@ -13,5 +14,7 @@ public abstract class DBComponent {
 
 	protected XSSFSheet dbDataSheet;
 
-	protected abstract void createComponent();
+	protected ReportData reportData;
+
+	public abstract void createComponent();
 }
