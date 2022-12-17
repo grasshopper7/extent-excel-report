@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.apache.logging.log4j.util.TriConsumer;
+import org.apache.poi.ss.util.CellReference;
+
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.TableOperations;
@@ -21,6 +25,9 @@ import tech.grasshopper.extent.data.SheetData.TagData;
 public class TagDBComponent extends DBComponent {
 
 	private int tagBarChartIndex;
+
+	private static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
+	private static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
 
 	@Override
 	public void createComponent() {
@@ -45,7 +52,15 @@ public class TagDBComponent extends DBComponent {
 			return row;
 		};
 
-		dbDataTableOperations.writeTableValues(TAG_TABLE_NAME_CELL, reportData.getTagData(), rowValueTransformer);
+		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+
+		printFunctions.add(printString);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+
+		dbDataTableOperations.writeTableValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagData(),
+				rowValueTransformer, printFunctions);
 	}
 
 	private void refreshTagChartPlot() {
@@ -53,7 +68,7 @@ public class TagDBComponent extends DBComponent {
 		ChartOperations dbChartOperations = ChartOperations.builder().dataSheet(dbDataSheet).chartSheet(dbSheet)
 				.build();
 
-		int rows = reportData.getTagData().size();
+		int rows = reportData.getFailSkipTagData().size();
 
 		ChartDataSeriesRange categoryRange = convertCellReferenceToChartDataRange(TAG_TABLE_NAME_CELL, rows);
 

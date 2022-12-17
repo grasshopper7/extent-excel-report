@@ -12,12 +12,6 @@ public class CellOperations {
 
 	private XSSFSheet sheet;
 
-	public void writeStringValue(int row, int col, String cellValue) {
-
-		CellReference cellRef = new CellReference(row, col);
-		writeStringValue(cellRef, cellValue);
-	}
-
 	public void writeStringValue(String cellName, String cellValue) {
 
 		CellReference cellRef = new CellReference(cellName);
@@ -30,19 +24,29 @@ public class CellOperations {
 		cell.setCellValue(cellValue);
 	}
 
-	public void writeNumericValue(int row, int col, int cellValue) {
+	public void writeNumericValue(CellReference cellRef, String cellValue) {
 
-		CellReference cellRef = new CellReference(row, col);
-		writeNumericValue(cellRef, cellValue);
+		writeNumericValue(cellRef, Long.parseLong(cellValue));
 	}
 
-	public void writeNumericValue(String cellName, int cellValue) {
+	public void writePositiveNumericValue(CellReference cellRef, String cellValue) {
+
+		Long value = Long.parseLong(cellValue);
+		Cell cell = fetchOrCreateCell(cellRef);
+
+		if (value > 0)
+			cell.setCellValue(value);
+		else
+			cell.setBlank();
+	}
+
+	public void writeNumericValue(String cellName, Long cellValue) {
 
 		CellReference cellRef = new CellReference(cellName);
 		writeNumericValue(cellRef, cellValue);
 	}
 
-	public void writeNumericValue(CellReference cellRef, int cellValue) {
+	public void writeNumericValue(CellReference cellRef, Long cellValue) {
 
 		Cell cell = fetchOrCreateCell(cellRef);
 		cell.setCellValue(cellValue);

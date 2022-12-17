@@ -49,14 +49,16 @@ public class ReportDataTest {
 
 		ExtentTest featureFail = extent.createTest(Feature.class, "Feature Fail");
 		ExtentTest scenarioFail = featureFail.createNode(Scenario.class, "Scenario Fail");
-		scenarioFail.assignCategory("simpleFail");
+		scenarioFail.assignCategory("simple");
+		scenarioFail.assignCategory("failtag");
 		scenarioFail.createNode(Given.class, "Given step.").pass("");
 		scenarioFail.createNode(When.class, "When step.").pass("");
 		scenarioFail.createNode(Then.class, "Then step.").fail("");
 
 		ExtentTest featureSkip = extent.createTest(Feature.class, "Feature Skip");
 		ExtentTest scenarioSkip = featureSkip.createNode(Scenario.class, "Scenario Skip");
-		scenarioSkip.assignCategory("simpleSkip");
+		scenarioSkip.assignCategory("simple");
+		scenarioSkip.assignCategory("skiptag");
 		scenarioSkip.createNode(Given.class, "Given step.").pass("");
 		scenarioSkip.createNode(When.class, "When step.").pass("");
 		scenarioSkip.createNode(Then.class, "Then step.").skip("");

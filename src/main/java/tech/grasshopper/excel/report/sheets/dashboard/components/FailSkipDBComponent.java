@@ -15,7 +15,11 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.util.TriConsumer;
+import org.apache.poi.ss.util.CellReference;
+
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.TableOperations;
@@ -34,21 +38,30 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private String failSkipTableStartCell;
 
+	private static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
+	private static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
+
 	@Override
 	public void createComponent() {
-
-		updateFeatureFailSkipTableData();
-		refreshFeatureFailSkipChartPlot();
-		updateScenarioFailSkipTableData();
-		refreshScenarioFailSkipChartPlot();
-		updateDBScenarioFeatureFailSkipTableData();
-	}
-
-	private void updateFeatureFailSkipTableData() {
 
 		List<FeatureData> failSkipFeatures = reportData.getFeatureData().stream()
 				.filter(f -> f.getStatus() == Status.FAILED || f.getStatus() == Status.SKIPPED)
 				.collect(Collectors.toList());
+
+		updateFeatureFailSkipTableData(failSkipFeatures);
+		refreshFeatureFailSkipChartPlot(failSkipFeatures);
+
+		List<ScenarioData> failSkipScenarios = reportData.getScenarioData().stream()
+				.filter(f -> f.getStatus() == Status.FAILED || f.getStatus() == Status.SKIPPED)
+				.collect(Collectors.toList());
+
+		updateScenarioFailSkipTableData(failSkipScenarios);
+		refreshScenarioFailSkipChartPlot(failSkipScenarios);
+
+		updateDBScenarioFeatureFailSkipTableData();
+	}
+
+	private void updateFeatureFailSkipTableData(List<FeatureData> failSkipFeatures) {
 
 		TableOperations<FeatureData> dbDataTableOperations = TableOperations.<FeatureData>builder().sheet(dbDataSheet)
 				.build();
@@ -66,16 +79,24 @@ public class FailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		dbDataTableOperations.writeTableValues(FEATURE_FAIL_SKIP_TABLE_NAME_CELL, failSkipFeatures,
-				rowValueTransformer);
+		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+
+		printFunctions.add(printString);
+		printFunctions.add(printString);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+
+		dbDataTableOperations.writeTableValues(FEATURE_FAIL_SKIP_TABLE_NAME_CELL, failSkipFeatures, rowValueTransformer,
+				printFunctions);
 	}
 
-	private void refreshFeatureFailSkipChartPlot() {
+	private void refreshFeatureFailSkipChartPlot(List<FeatureData> failSkipFeatures) {
 
 		ChartOperations dbChartOperations = ChartOperations.builder().dataSheet(dbDataSheet).chartSheet(dbSheet)
 				.build();
 
-		int rows = reportData.getFeatureData().size();
+		int rows = failSkipFeatures.size();
 
 		ChartDataSeriesRange categoryRange = convertCellReferenceToChartDataRange(FEATURE_FAIL_SKIP_TABLE_NAME_CELL,
 				rows);
@@ -88,11 +109,7 @@ public class FailSkipDBComponent extends DBComponent {
 		dbChartOperations.updateBarChartPlot(featureBarChartIndex, categoryRange, valueRanges);
 	}
 
-	private void updateScenarioFailSkipTableData() {
-
-		List<ScenarioData> failSkipScenarios = reportData.getScenarioData().stream()
-				.filter(f -> f.getStatus() == Status.FAILED || f.getStatus() == Status.SKIPPED)
-				.collect(Collectors.toList());
+	private void updateScenarioFailSkipTableData(List<ScenarioData> failSkipScenarios) {
 
 		TableOperations<ScenarioData> dbDataTableOperations = TableOperations.<ScenarioData>builder().sheet(dbDataSheet)
 				.build();
@@ -110,16 +127,24 @@ public class FailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
+		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+
+		printFunctions.add(printString);
+		printFunctions.add(printString);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+		printFunctions.add(printLong);
+
 		dbDataTableOperations.writeTableValues(SCENARIO_FAIL_SKIP_TABLE_NAME_CELL, failSkipScenarios,
-				rowValueTransformer);
+				rowValueTransformer, printFunctions);
 	}
 
-	private void refreshScenarioFailSkipChartPlot() {
+	private void refreshScenarioFailSkipChartPlot(List<ScenarioData> failSkipScenarios) {
 
 		ChartOperations dbChartOperations = ChartOperations.builder().dataSheet(dbDataSheet).chartSheet(dbSheet)
 				.build();
 
-		int rows = reportData.getScenarioData().size();
+		int rows = failSkipScenarios.size();
 
 		ChartDataSeriesRange categoryRange = convertCellReferenceToChartDataRange(SCENARIO_FAIL_SKIP_TABLE_NAME_CELL,
 				rows);
@@ -148,7 +173,14 @@ public class FailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		dbDataTableOperations.writeTableValues(failSkipTableStartCell, reportData.getFailSkipData(),
-				rowValueTransformer);
+		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+
+		printFunctions.add(printString);
+		printFunctions.add(printString);
+		printFunctions.add(printString);
+		printFunctions.add(printString);
+
+		dbDataTableOperations.writeTableValues(failSkipTableStartCell, reportData.getFailSkipFeatureAndScenarioData(),
+				rowValueTransformer, printFunctions);
 	}
 }

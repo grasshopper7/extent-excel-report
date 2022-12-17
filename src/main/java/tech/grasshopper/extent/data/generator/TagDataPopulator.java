@@ -3,6 +3,7 @@ package tech.grasshopper.extent.data.generator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.Builder;
 import tech.grasshopper.extent.data.SheetData.CountData;
@@ -18,9 +19,24 @@ public class TagDataPopulator {
 
 	public void populateTagData(List<TagData> tagData) {
 
+		populateTagData(tagData, features);
+	}
+
+	public void populateFailAndSkipScenariosTagData(List<TagData> failSkipTagData) {
+
+		List<Feature> statusFailAndSkippedFeatures = features.stream().filter(f -> f.getStatus() != Status.PASSED)
+				.collect(Collectors.toList());
+
+		populateTagData(failSkipTagData, statusFailAndSkippedFeatures);
+
+		System.out.println(failSkipTagData);
+	}
+
+	private void populateTagData(List<TagData> tagData, List<Feature> statusFilteredFeatures) {
+
 		Map<String, TagData> tagDatas = new HashMap<>();
 
-		for (Feature feature : features) {
+		for (Feature feature : statusFilteredFeatures) {
 			for (Scenario scenario : feature.getScenarios()) {
 				List<String> tags = scenario.getTags();
 
@@ -28,7 +44,9 @@ public class TagDataPopulator {
 					TagData td = tagDatas.computeIfAbsent(tag,
 							k -> TagData.builder().name(tag).scenarioCounts(CountData.builder().build()).build());
 
-					tagData.add(td);
+					if (!tagData.stream().anyMatch(t -> td.getName().equals(t.getName())))
+						tagData.add(td);
+
 					CountData scenarioCounts = td.getScenarioCounts();
 
 					scenarioCounts.setTotal(scenarioCounts.getTotal() + 1);

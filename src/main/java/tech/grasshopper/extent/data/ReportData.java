@@ -29,7 +29,9 @@ public class ReportData {
 
 	private BasicDashboardData dashboardData;
 
-	private List<FailSkipData> failSkipData = new ArrayList<>();
+	private List<TagData> failSkipTagData = new ArrayList<>();
+
+	private List<FailSkipData> failSkipFeatureAndScenarioData = new ArrayList<>();
 
 	private List<TagData> tagData = new ArrayList<>();
 
@@ -47,7 +49,9 @@ public class ReportData {
 
 		populateDashboardData(report);
 
-		populateFailSkipData();
+		populateFailSkipTagData();
+
+		populateFailSkipFeatureAndScenarioData();
 
 		populateTagData();
 
@@ -84,9 +88,14 @@ public class ReportData {
 		dashboardData = DashboardDataPopulator.builder().features(features).build().populateDashboardData(report);
 	}
 
-	private void populateFailSkipData() {
+	private void populateFailSkipTagData() {
 
-		FailSkipDataPopulator.builder().features(features).build().populateFailSkipData(failSkipData);
+		TagDataPopulator.builder().features(features).build().populateFailAndSkipScenariosTagData(failSkipTagData);
+	}
+
+	private void populateFailSkipFeatureAndScenarioData() {
+
+		FailSkipDataPopulator.builder().features(features).build().populateFailSkipData(failSkipFeatureAndScenarioData);
 	}
 
 	private void populateTagData() {

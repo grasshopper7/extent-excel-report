@@ -30,13 +30,13 @@ import tech.grasshopper.extent.data.SheetData.TimingData;
 public class BasicDBComponent extends DBComponent {
 
 	private CellOperations dbDataCellOperations;
-	
+
 	@Default
 	private int featurePieChartIndex = 0;
-	
+
 	@Default
 	private int scenarioPieChartIndex = 1;
-	
+
 	@Default
 	private int stepPieChartIndex = 2;
 
@@ -57,7 +57,7 @@ public class BasicDBComponent extends DBComponent {
 		TimingData timingData = reportData.getDashboardData().getTimingData();
 
 		// To be done later
-		// dbDataCellOperations.writeStringValue(TITLE_CELL, null);
+		// dbDataCellOperations.writeValue(TITLE_CELL, null);
 
 		// Not used just added for FUN
 		dbDataCellOperations.writeStringValue(CURRENT_DATE_CELL, DateUtil.formatDateTime(LocalDateTime.now()));
@@ -70,28 +70,28 @@ public class BasicDBComponent extends DBComponent {
 	private void updateFeatureCounts() {
 
 		CountData featureCounts = reportData.getDashboardData().getFeatureCounts();
-		dbDataCellOperations.writeStringValue(FEATURES_PASSED_CELL, String.valueOf(featureCounts.getPassed()));
-		dbDataCellOperations.writeStringValue(FEATURES_FAILED_CELL, String.valueOf(featureCounts.getFailed()));
-		dbDataCellOperations.writeStringValue(FEATURES_SKIPPED_CELL, String.valueOf(featureCounts.getSkipped()));
-		dbDataCellOperations.writeStringValue(FEATURES_TOTAL_CELL, String.valueOf(featureCounts.getTotal()));
+		dbDataCellOperations.writeNumericValue(FEATURES_PASSED_CELL, featureCounts.getPassed());
+		dbDataCellOperations.writeNumericValue(FEATURES_FAILED_CELL, featureCounts.getFailed());
+		dbDataCellOperations.writeNumericValue(FEATURES_SKIPPED_CELL, featureCounts.getSkipped());
+		dbDataCellOperations.writeNumericValue(FEATURES_TOTAL_CELL, featureCounts.getTotal());
 	}
 
 	private void updateScenarioCounts() {
 
 		CountData scenarioCounts = reportData.getDashboardData().getScenarioCounts();
-		dbDataCellOperations.writeStringValue(SCENARIOS_PASSED_CELL, String.valueOf(scenarioCounts.getPassed()));
-		dbDataCellOperations.writeStringValue(SCENARIOS_FAILED_CELL, String.valueOf(scenarioCounts.getFailed()));
-		dbDataCellOperations.writeStringValue(SCENARIOS_SKIPPED_CELL, String.valueOf(scenarioCounts.getSkipped()));
-		dbDataCellOperations.writeStringValue(SCENARIOS_TOTAL_CELL, String.valueOf(scenarioCounts.getTotal()));
+		dbDataCellOperations.writeNumericValue(SCENARIOS_PASSED_CELL, scenarioCounts.getPassed());
+		dbDataCellOperations.writeNumericValue(SCENARIOS_FAILED_CELL, scenarioCounts.getFailed());
+		dbDataCellOperations.writeNumericValue(SCENARIOS_SKIPPED_CELL, scenarioCounts.getSkipped());
+		dbDataCellOperations.writeNumericValue(SCENARIOS_TOTAL_CELL, scenarioCounts.getTotal());
 
 	}
 
 	private void updateStepCounts() {
 
 		CountData stepCounts = reportData.getDashboardData().getStepCounts();
-		dbDataCellOperations.writeStringValue(STEPS_PASSED_CELL, String.valueOf(stepCounts.getPassed()));
-		dbDataCellOperations.writeStringValue(STEPS_FAILED_CELL, String.valueOf(stepCounts.getFailed()));
-		dbDataCellOperations.writeStringValue(STEPS_SKIPPED_CELL, String.valueOf(stepCounts.getSkipped()));
-		dbDataCellOperations.writeStringValue(STEPS_TOTAL_CELL, String.valueOf(stepCounts.getTotal()));
+		dbDataCellOperations.writeNumericValue(STEPS_PASSED_CELL, stepCounts.getPassed());
+		dbDataCellOperations.writeNumericValue(STEPS_FAILED_CELL, stepCounts.getFailed());
+		dbDataCellOperations.writeNumericValue(STEPS_SKIPPED_CELL, stepCounts.getSkipped());
+		dbDataCellOperations.writeNumericValue(STEPS_TOTAL_CELL, stepCounts.getTotal());
 	}
 }
