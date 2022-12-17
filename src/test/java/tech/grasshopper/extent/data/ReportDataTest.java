@@ -54,6 +54,11 @@ public class ReportDataTest {
 		scenarioFail.createNode(Given.class, "Given step.").pass("");
 		scenarioFail.createNode(When.class, "When step.").pass("");
 		scenarioFail.createNode(Then.class, "Then step.").fail("");
+		ExtentTest scenarioPass1 = featureFail.createNode(Scenario.class, "SO Scenario Fail Pass");
+		scenarioPass1.assignCategory("failtag");
+		scenarioPass1.createNode(Given.class, "Given SO step.").pass("");
+		scenarioPass1.createNode(When.class, "When SO step.").pass("");
+		scenarioPass1.createNode(Then.class, "Then SO step.").pass("");
 
 		ExtentTest featureSkip = extent.createTest(Feature.class, "Feature Skip");
 		ExtentTest scenarioSkip = featureSkip.createNode(Scenario.class, "Scenario Skip");
@@ -62,6 +67,11 @@ public class ReportDataTest {
 		scenarioSkip.createNode(Given.class, "Given step.").pass("");
 		scenarioSkip.createNode(When.class, "When step.").pass("");
 		scenarioSkip.createNode(Then.class, "Then step.").skip("");
+		ExtentTest scenarioPass2 = featureSkip.createNode(Scenario.class, "SO Scenario Skip Pass");
+		scenarioPass2.assignCategory("skiptag");
+		scenarioPass2.createNode(Given.class, "Given SO step.").pass("");
+		scenarioPass2.createNode(When.class, "When SO step.").pass("");
+		scenarioPass2.createNode(Then.class, "Then SO step.").pass("");
 
 		extent.flush();
 	}

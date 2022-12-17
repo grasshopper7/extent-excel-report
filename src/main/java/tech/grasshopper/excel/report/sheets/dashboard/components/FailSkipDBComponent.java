@@ -10,6 +10,8 @@ import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCEN
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL;
 
+import static tech.grasshopper.excel.report.cell.CellOperations.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -37,9 +39,6 @@ public class FailSkipDBComponent extends DBComponent {
 	private int scenarioBarChartIndex;
 
 	private String failSkipTableStartCell;
-
-	private static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
-	private static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
 
 	@Override
 	public void createComponent() {

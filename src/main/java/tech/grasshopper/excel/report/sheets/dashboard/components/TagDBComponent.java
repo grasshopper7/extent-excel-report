@@ -6,6 +6,8 @@ import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_PASSED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_SKIPPED_CELL;
 
+import static tech.grasshopper.excel.report.cell.CellOperations.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -25,9 +27,6 @@ import tech.grasshopper.extent.data.SheetData.TagData;
 public class TagDBComponent extends DBComponent {
 
 	private int tagBarChartIndex;
-
-	private static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
-	private static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
 
 	@Override
 	public void createComponent() {

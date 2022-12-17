@@ -1,5 +1,6 @@
 package tech.grasshopper.excel.report.cell;
 
+import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellReference;
@@ -11,6 +12,9 @@ import lombok.Builder;
 public class CellOperations {
 
 	private XSSFSheet sheet;
+
+	public static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
+	public static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
 
 	public void writeStringValue(String cellName, String cellValue) {
 
@@ -32,10 +36,21 @@ public class CellOperations {
 	public void writePositiveNumericValue(CellReference cellRef, String cellValue) {
 
 		Long value = Long.parseLong(cellValue);
+		writePositiveNumericValue(cellRef, value);
+	}
+
+	public void writePositiveNumericValue(String cellName, Long cellValue) {
+
+		CellReference cellRef = new CellReference(cellName);
+		writePositiveNumericValue(cellRef, cellValue);
+	}
+
+	public void writePositiveNumericValue(CellReference cellRef, Long cellValue) {
+
 		Cell cell = fetchOrCreateCell(cellRef);
 
-		if (value > 0)
-			cell.setCellValue(value);
+		if (cellValue > 0)
+			cell.setCellValue(cellValue);
 		else
 			cell.setBlank();
 	}

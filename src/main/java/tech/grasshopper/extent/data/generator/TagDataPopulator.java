@@ -28,8 +28,6 @@ public class TagDataPopulator {
 				.collect(Collectors.toList());
 
 		populateTagData(failSkipTagData, statusFailAndSkippedFeatures);
-
-		System.out.println(failSkipTagData);
 	}
 
 	private void populateTagData(List<TagData> tagData, List<Feature> statusFilteredFeatures) {
