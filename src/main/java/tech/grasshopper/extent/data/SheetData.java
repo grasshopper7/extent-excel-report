@@ -62,7 +62,7 @@ public class SheetData {
 
 	@Data
 	@Builder
-	public static class TagData {
+	public static class TagCountData {
 
 		private String name;
 		private CountData scenarioCounts;

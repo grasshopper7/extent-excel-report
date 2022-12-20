@@ -19,27 +19,33 @@ import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
-import tech.grasshopper.excel.report.table.TableOperations;
+import tech.grasshopper.excel.report.table.SimpleTableOperations;
+import tech.grasshopper.excel.report.table.TagFailSkipTable;
 import tech.grasshopper.extent.data.SheetData.CountData;
-import tech.grasshopper.extent.data.SheetData.TagData;
+import tech.grasshopper.extent.data.SheetData.TagCountData;
 
 @SuperBuilder
-public class TagDBComponent extends DBComponent {
+public class TagFailSkipDBComponent extends DBComponent {
 
 	private int tagBarChartIndex;
+
+	private String failSkipTableStartCell;
 
 	@Override
 	public void createComponent() {
 
 		updateTagTableData();
 		refreshTagChartPlot();
+
+		updateDBScenarioFeatureFailSkipTagTableData();
 	}
 
 	private void updateTagTableData() {
 
-		TableOperations<TagData> dbDataTableOperations = TableOperations.<TagData>builder().sheet(dbDataSheet).build();
+		SimpleTableOperations<TagCountData> dbDataTableOperations = SimpleTableOperations.<TagCountData>builder()
+				.sheet(dbDataSheet).build();
 
-		Function<TagData, List<String>> rowValueTransformer = (TagData t) -> {
+		Function<TagCountData, List<String>> rowValueTransformer = (TagCountData t) -> {
 			List<String> row = new ArrayList<>();
 			CountData counts = t.getScenarioCounts();
 
@@ -58,7 +64,7 @@ public class TagDBComponent extends DBComponent {
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
 
-		dbDataTableOperations.writeTableValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagData(),
+		dbDataTableOperations.writeTableValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagCountData(),
 				rowValueTransformer, printFunctions);
 	}
 
@@ -67,7 +73,7 @@ public class TagDBComponent extends DBComponent {
 		ChartOperations dbChartOperations = ChartOperations.builder().dataSheet(dbDataSheet).chartSheet(dbSheet)
 				.build();
 
-		int rows = reportData.getFailSkipTagData().size();
+		int rows = reportData.getFailSkipTagCountData().size();
 
 		ChartDataSeriesRange categoryRange = convertCellReferenceToChartDataRange(TAG_TABLE_NAME_CELL, rows);
 
@@ -77,5 +83,11 @@ public class TagDBComponent extends DBComponent {
 		valueRanges.add(convertCellReferenceToChartDataRange(TAG_TABLE_SCENARIO_FAILED_CELL, rows));
 
 		dbChartOperations.updateBarChartPlot(tagBarChartIndex, categoryRange, valueRanges);
+	}
+
+	private void updateDBScenarioFeatureFailSkipTagTableData() {
+
+		TagFailSkipTable.builder().failSkipFeatureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
+				.sheet(dbSheet).startCell(failSkipTableStartCell).build().writeTableValues();
 	}
 }

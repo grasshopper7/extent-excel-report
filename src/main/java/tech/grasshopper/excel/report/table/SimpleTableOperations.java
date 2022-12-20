@@ -11,7 +11,7 @@ import lombok.Builder;
 import tech.grasshopper.excel.report.cell.CellOperations;
 
 @Builder
-public class TableOperations<T> {
+public class SimpleTableOperations<T> {
 
 	private XSSFSheet sheet;
 

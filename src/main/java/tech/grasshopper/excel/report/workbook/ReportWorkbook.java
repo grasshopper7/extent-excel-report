@@ -53,17 +53,16 @@ public abstract class ReportWorkbook {
 		workbook.write(os);
 		workbook.close();
 		os.close();
-
 	}
 
 	private static ReportWorkbook createReportType(ReportData reportData) {
 
 		boolean failSkipDataPresent = !reportData.getFailSkipFeatureAndScenarioData().isEmpty();
-		boolean tagDataPresent = !reportData.getTagData().isEmpty();
+		boolean tagFailSkipDataPresent = !reportData.getFailSkipTagCountData().isEmpty();
 
-		if (tagDataPresent & failSkipDataPresent)
+		if (tagFailSkipDataPresent & failSkipDataPresent)
 			return ExecutionAndTagAndFailSkipDataReport.builder().reportData(reportData).build();
-		else if (tagDataPresent)
+		else if (tagFailSkipDataPresent)
 			return ExecutionAndTagDataReport.builder().reportData(reportData).build();
 		else if (failSkipDataPresent)
 			return ExecutionAndFailSkipDataReport.builder().reportData(reportData).build();

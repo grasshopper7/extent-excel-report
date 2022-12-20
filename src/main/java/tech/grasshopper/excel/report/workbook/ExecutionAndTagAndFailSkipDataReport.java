@@ -10,7 +10,7 @@ import tech.grasshopper.excel.report.sheets.tags.TagsSheet;
 public class ExecutionAndTagAndFailSkipDataReport extends ReportWorkbook {
 
 	protected String templateReportLocation() {
-		return "src/main/resources/report template - All DB.xlsx";
+		return "src/main/resources/report template.xlsx";
 	}
 
 	@Override

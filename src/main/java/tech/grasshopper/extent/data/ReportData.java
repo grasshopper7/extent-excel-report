@@ -1,7 +1,9 @@
 package tech.grasshopper.extent.data;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.aventstack.extentreports.model.Report;
 
@@ -11,7 +13,7 @@ import tech.grasshopper.extent.data.SheetData.BasicDashboardData;
 import tech.grasshopper.extent.data.SheetData.FailSkipData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;
-import tech.grasshopper.extent.data.SheetData.TagData;
+import tech.grasshopper.extent.data.SheetData.TagCountData;
 import tech.grasshopper.extent.data.generator.DashboardDataPopulator;
 import tech.grasshopper.extent.data.generator.FailSkipDataPopulator;
 import tech.grasshopper.extent.data.generator.HeirarchyDataPopulator;
@@ -29,11 +31,13 @@ public class ReportData {
 
 	private BasicDashboardData dashboardData;
 
-	private List<TagData> failSkipTagData = new ArrayList<>();
+	private List<TagCountData> failSkipTagCountData = new ArrayList<>();
+
+	private Map<String, Feature> failSkipFeatureAndScenarioTagData = new LinkedHashMap<>();
 
 	private List<FailSkipData> failSkipFeatureAndScenarioData = new ArrayList<>();
 
-	private List<TagData> tagData = new ArrayList<>();
+	private List<TagCountData> tagData = new ArrayList<>();
 
 	private List<FeatureData> featureData = new ArrayList<>();
 
@@ -49,7 +53,9 @@ public class ReportData {
 
 		populateDashboardData(report);
 
-		populateFailSkipTagData();
+		populateFailSkipTagCountData();
+
+		populateFailSkipFeatureAndScenarioTagData();
 
 		populateFailSkipFeatureAndScenarioData();
 
@@ -88,9 +94,16 @@ public class ReportData {
 		dashboardData = DashboardDataPopulator.builder().features(features).build().populateDashboardData(report);
 	}
 
-	private void populateFailSkipTagData() {
+	private void populateFailSkipTagCountData() {
 
-		TagDataPopulator.builder().features(features).build().populateFailAndSkipScenariosTagData(failSkipTagData);
+		TagDataPopulator.builder().features(features).build()
+				.populateFailAndSkipScenariosTagCountData(failSkipTagCountData);
+	}
+
+	private void populateFailSkipFeatureAndScenarioTagData() {
+
+		TagDataPopulator.builder().features(features).build()
+				.populateFailSkipFeatureScenarioData(failSkipFeatureAndScenarioTagData);
 	}
 
 	private void populateFailSkipFeatureAndScenarioData() {
@@ -100,7 +113,7 @@ public class ReportData {
 
 	private void populateTagData() {
 
-		TagDataPopulator.builder().features(features).build().populateTagData(tagData);
+		TagDataPopulator.builder().features(features).build().populateTagCountData(tagData);
 	}
 
 	private void populateFeatureData() {

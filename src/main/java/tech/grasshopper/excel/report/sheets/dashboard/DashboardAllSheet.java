@@ -5,7 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.dashboard.components.BasicDBComponent;
 import tech.grasshopper.excel.report.sheets.dashboard.components.FailSkipDBComponent;
-import tech.grasshopper.excel.report.sheets.dashboard.components.TagDBComponent;
+import tech.grasshopper.excel.report.sheets.dashboard.components.TagFailSkipDBComponent;
 
 @SuperBuilder
 public class DashboardAllSheet extends DashboardSheet {
@@ -20,10 +20,11 @@ public class DashboardAllSheet extends DashboardSheet {
 		BasicDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData).build()
 				.createComponent();
 
-		TagDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData).tagBarChartIndex(3)
-				.build().createComponent();
+		TagFailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
+				.tagBarChartIndex(3).failSkipTableStartCell("B38").build().createComponent();
 
 		FailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
-				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell("B51").build().createComponent();
+				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell("B60").build()
+				.createComponent();
 	}
 }

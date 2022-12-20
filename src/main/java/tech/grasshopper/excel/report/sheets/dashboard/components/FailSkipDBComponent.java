@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
-import tech.grasshopper.excel.report.table.TableOperations;
+import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.FailSkipData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
@@ -62,7 +62,7 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateFeatureFailSkipTableData(List<FeatureData> failSkipFeatures) {
 
-		TableOperations<FeatureData> dbDataTableOperations = TableOperations.<FeatureData>builder().sheet(dbDataSheet)
+		SimpleTableOperations<FeatureData> dbDataTableOperations = SimpleTableOperations.<FeatureData>builder().sheet(dbDataSheet)
 				.build();
 
 		Function<FeatureData, List<String>> rowValueTransformer = (FeatureData f) -> {
@@ -110,7 +110,7 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateScenarioFailSkipTableData(List<ScenarioData> failSkipScenarios) {
 
-		TableOperations<ScenarioData> dbDataTableOperations = TableOperations.<ScenarioData>builder().sheet(dbDataSheet)
+		SimpleTableOperations<ScenarioData> dbDataTableOperations = SimpleTableOperations.<ScenarioData>builder().sheet(dbDataSheet)
 				.build();
 
 		Function<ScenarioData, List<String>> rowValueTransformer = (ScenarioData s) -> {
@@ -158,7 +158,7 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateDBScenarioFeatureFailSkipTableData() {
 
-		TableOperations<FailSkipData> dbDataTableOperations = TableOperations.<FailSkipData>builder().sheet(dbSheet)
+		SimpleTableOperations<FailSkipData> dbDataTableOperations = SimpleTableOperations.<FailSkipData>builder().sheet(dbSheet)
 				.build();
 
 		Function<FailSkipData, List<String>> rowValueTransformer = (FailSkipData fs) -> {

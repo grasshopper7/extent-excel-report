@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import lombok.Builder;
 import tech.grasshopper.extent.data.SheetData.CountData;
-import tech.grasshopper.extent.data.SheetData.TagData;
+import tech.grasshopper.extent.data.SheetData.TagCountData;
 import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Scenario;
 import tech.grasshopper.extent.data.pojo.Status;
@@ -17,30 +17,32 @@ public class TagDataPopulator {
 
 	private List<Feature> features;
 
-	public void populateTagData(List<TagData> tagData) {
+	public void populateTagCountData(List<TagCountData> tagData) {
 
-		populateTagData(tagData, features);
+		populateTagCountData(tagData, features);
 	}
 
-	public void populateFailAndSkipScenariosTagData(List<TagData> failSkipTagData) {
+	public void populateFailAndSkipScenariosTagCountData(List<TagCountData> failSkipTagData) {
 
 		List<Feature> statusFailAndSkippedFeatures = features.stream().filter(f -> f.getStatus() != Status.PASSED)
 				.collect(Collectors.toList());
 
-		populateTagData(failSkipTagData, statusFailAndSkippedFeatures);
+		populateTagCountData(failSkipTagData, statusFailAndSkippedFeatures);
+
+		removeTagsWithOnlyPassedScenarios(failSkipTagData);
 	}
 
-	private void populateTagData(List<TagData> tagData, List<Feature> statusFilteredFeatures) {
+	private void populateTagCountData(List<TagCountData> tagData, List<Feature> statusFilteredFeatures) {
 
-		Map<String, TagData> tagDatas = new HashMap<>();
+		Map<String, TagCountData> tagDatas = new HashMap<>();
 
 		for (Feature feature : statusFilteredFeatures) {
 			for (Scenario scenario : feature.getScenarios()) {
 				List<String> tags = scenario.getTags();
 
 				for (String tag : tags) {
-					TagData td = tagDatas.computeIfAbsent(tag,
-							k -> TagData.builder().name(tag).scenarioCounts(CountData.builder().build()).build());
+					TagCountData td = tagDatas.computeIfAbsent(tag,
+							k -> TagCountData.builder().name(tag).scenarioCounts(CountData.builder().build()).build());
 
 					if (!tagData.stream().anyMatch(t -> td.getName().equals(t.getName())))
 						tagData.add(td);
@@ -54,6 +56,37 @@ public class TagDataPopulator {
 						scenarioCounts.setFailed(scenarioCounts.getFailed() + 1);
 					else if (scenario.getStatus() == Status.SKIPPED)
 						scenarioCounts.setSkipped(scenarioCounts.getSkipped() + 1);
+				}
+			}
+		}
+	}
+
+	private void removeTagsWithOnlyPassedScenarios(List<TagCountData> tagData) {
+
+		tagData.removeIf(td -> td.getScenarioCounts().getPassed() == td.getScenarioCounts().getTotal());
+	}
+
+	public void populateFailSkipFeatureScenarioData(Map<String, Feature> data) {
+
+		for (Feature feature : features) {
+			if (feature.getStatus() == Status.PASSED)
+				continue;
+
+			for (Scenario scenario : feature.getScenarios()) {
+				if (scenario.getStatus() == Status.PASSED)
+					continue;
+
+				List<String> tags = scenario.getTags();
+
+				for (String tag : tags) {
+
+					Feature feat = data.computeIfAbsent(tag,
+							f -> Feature.builder().name(feature.getName()).status(feature.getStatus()).build());
+
+					feat.getScenarios()
+							.add(Scenario.builder().name(scenario.getName()).status(scenario.getStatus()).build());
+
+					feat.setTotalScenarios(feat.getTotalScenarios() + 1);
 				}
 			}
 		}
