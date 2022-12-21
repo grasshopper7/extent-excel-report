@@ -1,5 +1,6 @@
 package tech.grasshopper.extent.data.generator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class TagDataPopulator {
 		tagData.removeIf(td -> td.getScenarioCounts().getPassed() == td.getScenarioCounts().getTotal());
 	}
 
-	public void populateFailSkipFeatureScenarioData(Map<String, Feature> data) {
+	public void populateFailSkipFeatureScenarioData(Map<String, List<Feature>> data) {
 
 		for (Feature feature : features) {
 			if (feature.getStatus() == Status.PASSED)
@@ -76,12 +77,16 @@ public class TagDataPopulator {
 				if (scenario.getStatus() == Status.PASSED)
 					continue;
 
-				List<String> tags = scenario.getTags();
-
-				for (String tag : tags) {
-
-					Feature feat = data.computeIfAbsent(tag,
-							f -> Feature.builder().name(feature.getName()).status(feature.getStatus()).build());
+				for (String tag : scenario.getTags()) {
+					List<Feature> feats = data.computeIfAbsent(tag, f -> new ArrayList<Feature>());
+					
+					Feature feat = feats.stream().filter(f -> f.getName().equals(feature.getName())).findAny()
+							.orElseGet(() -> {
+								Feature f = Feature.builder().name(feature.getName()).status(feature.getStatus())
+										.build();
+								feats.add(f);
+								return f;
+							});
 
 					feat.getScenarios()
 							.add(Scenario.builder().name(scenario.getName()).status(scenario.getStatus()).build());

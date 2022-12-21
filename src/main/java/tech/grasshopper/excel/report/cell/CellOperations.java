@@ -1,8 +1,12 @@
 package tech.grasshopper.excel.report.cell;
 
 import org.apache.logging.log4j.util.TriConsumer;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -77,5 +81,34 @@ public class CellOperations {
 		if (cell == null)
 			cell = row.createCell(cellRef.getCol());
 		return cell;
+	}
+
+	public void mergeRows(int startRow, int rowsToMerge, int column) {
+
+		sheet.addMergedRegion(new CellRangeAddress(startRow, rowsToMerge, column, column));
+	}
+
+	public CellStyle createCellStyle() {
+
+		CellStyle style = sheet.getWorkbook().createCellStyle();
+		style.setVerticalAlignment(VerticalAlignment.TOP);
+		style.setBorderTop(BorderStyle.HAIR);
+		style.setBorderRight(BorderStyle.HAIR);
+		style.setBorderBottom(BorderStyle.HAIR);
+		style.setBorderLeft(BorderStyle.HAIR);
+
+		return style;
+	}
+
+	public void createCellsWithStyleInRange(int startRow, int endRow, int startCol, int endCol) {
+		CellStyle style = createCellStyle();
+
+		for (int i = startRow; i < endRow; i++) {
+			for (int j = startCol; j < endCol; j++) {
+				CellReference cellRef = new CellReference(i, j);
+				Cell cell = fetchOrCreateCell(cellRef);
+				cell.setCellStyle(style);
+			}
+		}
 	}
 }

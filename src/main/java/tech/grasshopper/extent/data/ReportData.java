@@ -33,7 +33,7 @@ public class ReportData {
 
 	private List<TagCountData> failSkipTagCountData = new ArrayList<>();
 
-	private Map<String, Feature> failSkipFeatureAndScenarioTagData = new LinkedHashMap<>();
+	private Map<String, List<Feature>> failSkipFeatureAndScenarioTagData = new LinkedHashMap<>();
 
 	private List<FailSkipData> failSkipFeatureAndScenarioData = new ArrayList<>();
 
