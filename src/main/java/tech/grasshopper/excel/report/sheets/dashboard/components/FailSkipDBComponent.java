@@ -1,5 +1,7 @@
 package tech.grasshopper.excel.report.sheets.dashboard.components;
 
+import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
+import static tech.grasshopper.excel.report.cell.CellOperations.printString;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_NAME_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_SCENARIO_FAILED_CELL;
@@ -9,8 +11,6 @@ import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCEN
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL;
-
-import static tech.grasshopper.excel.report.cell.CellOperations.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
+import tech.grasshopper.excel.report.table.FeatureScenarioFailSkipTable;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.extent.data.SheetData.CountData;
-import tech.grasshopper.extent.data.SheetData.FailSkipData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;
 import tech.grasshopper.extent.data.pojo.Status;
@@ -62,8 +62,8 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateFeatureFailSkipTableData(List<FeatureData> failSkipFeatures) {
 
-		SimpleTableOperations<FeatureData> dbDataTableOperations = SimpleTableOperations.<FeatureData>builder().sheet(dbDataSheet)
-				.build();
+		SimpleTableOperations<FeatureData> dbDataTableOperations = SimpleTableOperations.<FeatureData>builder()
+				.sheet(dbDataSheet).build();
 
 		Function<FeatureData, List<String>> rowValueTransformer = (FeatureData f) -> {
 			List<String> row = new ArrayList<>();
@@ -110,8 +110,8 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateScenarioFailSkipTableData(List<ScenarioData> failSkipScenarios) {
 
-		SimpleTableOperations<ScenarioData> dbDataTableOperations = SimpleTableOperations.<ScenarioData>builder().sheet(dbDataSheet)
-				.build();
+		SimpleTableOperations<ScenarioData> dbDataTableOperations = SimpleTableOperations.<ScenarioData>builder()
+				.sheet(dbDataSheet).build();
 
 		Function<ScenarioData, List<String>> rowValueTransformer = (ScenarioData s) -> {
 			List<String> row = new ArrayList<>();
@@ -158,28 +158,8 @@ public class FailSkipDBComponent extends DBComponent {
 
 	private void updateDBScenarioFeatureFailSkipTableData() {
 
-		SimpleTableOperations<FailSkipData> dbDataTableOperations = SimpleTableOperations.<FailSkipData>builder().sheet(dbSheet)
-				.build();
-
-		Function<FailSkipData, List<String>> rowValueTransformer = (FailSkipData fs) -> {
-			List<String> row = new ArrayList<>();
-
-			row.add(fs.getScenarioName());
-			row.add(fs.getScenarioStatus().toString());
-			row.add(fs.getFeatureName());
-			row.add(fs.getFeatureStatus().toString());
-
-			return row;
-		};
-
-		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
-
-		printFunctions.add(printString);
-		printFunctions.add(printString);
-		printFunctions.add(printString);
-		printFunctions.add(printString);
-
-		dbDataTableOperations.writeTableValues(failSkipTableStartCell, reportData.getFailSkipFeatureAndScenarioData(),
-				rowValueTransformer, printFunctions);
+		FeatureScenarioFailSkipTable.builder()
+				.failSkipFeatureAndScenarioData(reportData.getFailSkipFeatureAndScenarioData()).sheet(dbSheet)
+				.startCell(failSkipTableStartCell).build().writeTableValues();
 	}
 }

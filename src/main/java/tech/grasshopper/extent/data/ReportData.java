@@ -10,7 +10,6 @@ import com.aventstack.extentreports.model.Report;
 import lombok.Getter;
 import tech.grasshopper.excel.report.exception.ExcelReportException;
 import tech.grasshopper.extent.data.SheetData.BasicDashboardData;
-import tech.grasshopper.extent.data.SheetData.FailSkipData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
@@ -35,7 +34,7 @@ public class ReportData {
 
 	private Map<String, List<Feature>> failSkipFeatureAndScenarioTagData = new LinkedHashMap<>();
 
-	private List<FailSkipData> failSkipFeatureAndScenarioData = new ArrayList<>();
+	private List<Feature> failSkipFeatureAndScenarioData = new ArrayList<>();
 
 	private List<TagCountData> tagData = new ArrayList<>();
 
@@ -108,7 +107,8 @@ public class ReportData {
 
 	private void populateFailSkipFeatureAndScenarioData() {
 
-		FailSkipDataPopulator.builder().features(features).build().populateFailSkipData(failSkipFeatureAndScenarioData);
+		FailSkipDataPopulator.builder().features(features).build()
+				.populateFailSkipFeatureScenarioData(failSkipFeatureAndScenarioData);
 	}
 
 	private void populateTagData() {
