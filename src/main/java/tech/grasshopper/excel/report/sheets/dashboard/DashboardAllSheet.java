@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.ComponentShifter;
 import tech.grasshopper.excel.report.sheets.dashboard.components.BasicDBComponent;
-import tech.grasshopper.excel.report.sheets.dashboard.components.FailSkipDBComponent;
+import tech.grasshopper.excel.report.sheets.dashboard.components.FeatureScenarioFailSkipDBComponent;
 import tech.grasshopper.excel.report.sheets.dashboard.components.TagFailSkipDBComponent;
 
 @SuperBuilder
@@ -30,7 +30,7 @@ public class DashboardAllSheet extends DashboardSheet {
 		int tagRowCount = (int) reportData.getFailSkipFeatureAndScenarioTagData().values().stream()
 				.flatMap(Collection::stream).mapToLong(f -> f.getTotalScenarios()).sum();
 
-		moveDownFailSkipDBComponent(dbSheet, tagRowCount);
+		moveDownFeatureScenarioFailSkipDBComponent(dbSheet, tagRowCount);
 
 		TagFailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
 				.tagBarChartIndex(3).failSkipTableStartCell(TAG_FAIL_SKIP_TABLE_CELL).build().createComponent();
@@ -38,12 +38,12 @@ public class DashboardAllSheet extends DashboardSheet {
 		CellReference origCellRef = new CellReference(FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL);
 		CellReference cellRef = new CellReference(origCellRef.getRow() + tagRowCount, origCellRef.getCol());
 
-		FailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
+		FeatureScenarioFailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
 				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell(cellRef.formatAsString())
 				.build().createComponent();
 	}
 
-	private void moveDownFailSkipDBComponent(XSSFSheet sheet, int tagRowCount) {
+	private void moveDownFeatureScenarioFailSkipDBComponent(XSSFSheet sheet, int tagRowCount) {
 
 		CellReference celRef = new CellReference(TAG_FAIL_SKIP_TABLE_CELL);
 

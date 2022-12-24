@@ -19,6 +19,8 @@ public class FeatureScenarioFailSkipTable {
 
 	private List<Feature> failSkipFeatureAndScenarioData;
 
+	private final int[] columnCellCount = { 2, 1, 2, 1 };
+
 	public void writeTableValues() {
 
 		CellOperations cellOperations = CellOperations.builder().sheet(sheet).build();
@@ -36,38 +38,35 @@ public class FeatureScenarioFailSkipTable {
 			// Reset to feature name column
 			int currentCol = startCol;
 
-			if (feature.getTotalScenarios() > 1)
-				cellOperations.mergeRows(currentRow, currentRow + (int) feature.getTotalScenarios() - 1, currentCol);
-
+			cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[0]);
 			cellOperations.writeStringValue(new CellReference(currentRow, currentCol), feature.getName());
 
 			// Move to feature status column
-			currentCol++;
+			currentCol = currentCol + columnCellCount[0];
 
-			if (feature.getTotalScenarios() > 1)
-				cellOperations.mergeRows(currentRow, currentRow + (int) feature.getTotalScenarios() - 1, currentCol);
-
+			cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
 			cellOperations.writeStringValue(new CellReference(currentRow, currentCol), feature.getStatus().toString());
 
 			// Move to scenario name column
-			currentCol++;
+			currentCol = currentCol + columnCellCount[1];
 
 			for (Scenario scenario : feature.getScenarios()) {
-				CellOperations.builder().sheet(sheet).build()
-						.writeStringValue(new CellReference(currentRow, currentCol), scenario.getName());
+
+				cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
+				cellOperations.writeStringValue(new CellReference(currentRow, currentCol), scenario.getName());
 
 				// Move to scenario status column
-				currentCol++;
+				currentCol = currentCol + columnCellCount[2];
 
-				CellOperations.builder().sheet(sheet).build()
-						.writeStringValue(new CellReference(currentRow, currentCol), scenario.getStatus().toString());
+				cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
+				cellOperations.writeStringValue(new CellReference(currentRow, currentCol),
+						scenario.getStatus().toString());
 
 				// Move BACK to scenario name column
-				currentCol--;
+				currentCol = currentCol - columnCellCount[2];
 				// Move to next scenario
 				currentRow++;
 			}
-
 		}
 
 		sheet.groupRow(startRow, startRow + rowCount - 1);

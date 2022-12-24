@@ -32,7 +32,7 @@ import tech.grasshopper.extent.data.SheetData.ScenarioData;
 import tech.grasshopper.extent.data.pojo.Status;
 
 @SuperBuilder
-public class FailSkipDBComponent extends DBComponent {
+public class FeatureScenarioFailSkipDBComponent extends DBComponent {
 
 	private int featureBarChartIndex;
 

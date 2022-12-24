@@ -83,9 +83,13 @@ public class CellOperations {
 		return cell;
 	}
 
-	public void mergeRows(int startRow, int rowsToMerge, int column) {
+	public void mergeRows(int startRow, int rowsToMerge, int startColumn, int colsToMerge) {
 
-		sheet.addMergedRegion(new CellRangeAddress(startRow, rowsToMerge, column, column));
+		if (rowsToMerge == 1 && colsToMerge == 1)
+			return;
+
+		sheet.addMergedRegion(
+				new CellRangeAddress(startRow, startRow + rowsToMerge - 1, startColumn, startColumn + colsToMerge - 1));
 	}
 
 	public CellStyle createCellStyle() {
