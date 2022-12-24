@@ -1,5 +1,6 @@
 package tech.grasshopper.excel.report.table;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.ss.util.CellReference;
@@ -29,7 +30,8 @@ public class FeatureScenarioFailSkipTable {
 		int startCol = cellRef.getCol();
 
 		int rowCount = (int) failSkipFeatureAndScenarioData.stream().mapToLong(f -> f.getTotalScenarios()).sum();
-		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol, startCol + 4);
+		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol,
+				startCol + Arrays.stream(columnCellCount).sum());
 
 		int currentRow = startRow;
 

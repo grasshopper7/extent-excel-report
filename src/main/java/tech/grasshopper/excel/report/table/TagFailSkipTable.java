@@ -1,5 +1,6 @@
 package tech.grasshopper.excel.report.table;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,8 @@ public class TagFailSkipTable {
 
 		int rowCount = (int) failSkipFeatureAndScenarioTagData.values().stream().flatMap(Collection::stream)
 				.mapToLong(f -> f.getTotalScenarios()).sum();
-		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol, startCol + 4);
+		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol,
+				startCol + Arrays.stream(columnCellCount).sum());
 
 		int currentRow = startRow;
 
