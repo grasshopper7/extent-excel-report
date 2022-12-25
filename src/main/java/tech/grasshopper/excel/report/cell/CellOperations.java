@@ -35,7 +35,19 @@ public class CellOperations {
 		cell.setCellValue(cellValue);
 	}
 
-	public void writeStatusValue(CellReference cellRef, Status status) {
+	public void writeBoldStringValue(CellReference cellRef, String cellValue) {
+
+		Cell cell = fetchOrCreateCell(cellRef);
+
+		CellStyle style = cell.getCellStyle();
+		XSSFFont font = sheet.getWorkbook().createFont();
+		font.setBold(true);
+		style.setFont(font);
+
+		cell.setCellValue(cellValue);
+	}
+
+	public void writeStatus(CellReference cellRef, Status status) {
 
 		Cell cell = fetchOrCreateCell(cellRef);
 
@@ -46,6 +58,18 @@ public class CellOperations {
 		style.setFont(font);
 
 		cell.setCellValue(status.toString());
+	}
+
+	public void writeNonExecutableName(CellReference cellRef, String cellValue, Status status) {
+
+		Cell cell = fetchOrCreateCell(cellRef);
+
+		CellStyle style = cell.getCellStyle();
+		XSSFFont font = sheet.getWorkbook().createFont();
+		font.setColor(new XSSFColor(Status.getStatusColor(status), null));
+		style.setFont(font);
+
+		cell.setCellValue(cellValue);
 	}
 
 	public void writeNumericValue(CellReference cellRef, String cellValue) {

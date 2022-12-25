@@ -49,14 +49,15 @@ public class TagFailSkipTable {
 			long tagMergeRowCount = features.stream().mapToLong(f -> f.getTotalScenarios()).sum();
 
 			cellOperations.mergeRows(currentRow, (int) tagMergeRowCount, currentCol, columnCellCount[0]);
-			cellOperations.writeStringValue(new CellReference(currentRow, currentCol), tag);
+			cellOperations.writeBoldStringValue(new CellReference(currentRow, currentCol), tag);
 
 			// Move to feature name column
 			currentCol = currentCol + columnCellCount[0];
 
 			for (Feature feature : features) {
 				cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
-				cellOperations.writeStringValue(new CellReference(currentRow, currentCol), feature.getName());
+				cellOperations.writeNonExecutableName(new CellReference(currentRow, currentCol), feature.getName(),
+						feature.getStatus());
 
 				// Move to scenario name column
 				currentCol = currentCol + columnCellCount[1];
@@ -64,13 +65,14 @@ public class TagFailSkipTable {
 				for (Scenario scenario : feature.getScenarios()) {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
-					cellOperations.writeStringValue(new CellReference(currentRow, currentCol), scenario.getName());
+					cellOperations.writeNonExecutableName(new CellReference(currentRow, currentCol), scenario.getName(),
+							scenario.getStatus());
 
 					// Move to scenario status column
 					currentCol = currentCol + columnCellCount[2];
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
-					cellOperations.writeStatusValue(new CellReference(currentRow, currentCol), scenario.getStatus());
+					cellOperations.writeStatus(new CellReference(currentRow, currentCol), scenario.getStatus());
 
 					// Move BACK to scenario name column
 					currentCol = currentCol - columnCellCount[2];
