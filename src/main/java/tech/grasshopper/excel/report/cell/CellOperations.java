@@ -8,9 +8,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
+import tech.grasshopper.extent.data.pojo.Status;
 
 @Builder
 public class CellOperations {
@@ -30,6 +33,19 @@ public class CellOperations {
 
 		Cell cell = fetchOrCreateCell(cellRef);
 		cell.setCellValue(cellValue);
+	}
+
+	public void writeStatusValue(CellReference cellRef, Status status) {
+
+		Cell cell = fetchOrCreateCell(cellRef);
+
+		CellStyle style = cell.getCellStyle();
+		XSSFFont font = sheet.getWorkbook().createFont();
+		font.setColor(new XSSFColor(Status.getStatusColor(status), null));
+		font.setBold(true);
+		style.setFont(font);
+
+		cell.setCellValue(status.toString());
 	}
 
 	public void writeNumericValue(CellReference cellRef, String cellValue) {
@@ -105,12 +121,12 @@ public class CellOperations {
 	}
 
 	public void createCellsWithStyleInRange(int startRow, int endRow, int startCol, int endCol) {
-		CellStyle style = createCellStyle();
 
 		for (int i = startRow; i < endRow; i++) {
 			for (int j = startCol; j < endCol; j++) {
 				CellReference cellRef = new CellReference(i, j);
 				Cell cell = fetchOrCreateCell(cellRef);
+				CellStyle style = createCellStyle();
 				cell.setCellStyle(style);
 			}
 		}

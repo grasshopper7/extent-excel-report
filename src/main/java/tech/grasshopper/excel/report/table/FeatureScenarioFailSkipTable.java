@@ -47,7 +47,7 @@ public class FeatureScenarioFailSkipTable {
 			currentCol = currentCol + columnCellCount[0];
 
 			cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
-			cellOperations.writeStringValue(new CellReference(currentRow, currentCol), feature.getStatus().toString());
+			cellOperations.writeStatusValue(new CellReference(currentRow, currentCol), feature.getStatus());
 
 			// Move to scenario name column
 			currentCol = currentCol + columnCellCount[1];
@@ -61,8 +61,7 @@ public class FeatureScenarioFailSkipTable {
 				currentCol = currentCol + columnCellCount[2];
 
 				cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
-				cellOperations.writeStringValue(new CellReference(currentRow, currentCol),
-						scenario.getStatus().toString());
+				cellOperations.writeStatusValue(new CellReference(currentRow, currentCol), scenario.getStatus());
 
 				// Move BACK to scenario name column
 				currentCol = currentCol - columnCellCount[2];
