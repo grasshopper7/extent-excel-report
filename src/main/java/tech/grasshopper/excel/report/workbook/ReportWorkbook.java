@@ -13,6 +13,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.sheets.features.FeaturesSheet;
+import tech.grasshopper.excel.report.sheets.scenarios.ScenariosSheet;
+import tech.grasshopper.excel.report.sheets.tags.TagsSheet;
 import tech.grasshopper.extent.data.ReportData;
 
 @Data
@@ -23,22 +26,11 @@ public abstract class ReportWorkbook {
 
 	protected XSSFWorkbook xssfWorkbook;
 
-	public static void createReport(ReportData reportData) throws IOException {
+	public static void createReport(ReportData reportData, String reportFile) throws IOException {
 
 		ReportWorkbook reportWorkbook = createReportType(reportData);
 
-		/*
-		 * try (XSSFWorkbook templateXls = new
-		 * XSSFWorkbook(reportWorkbook.templateReportLocation())) {
-		 * reportWorkbook.setXssfWorkbook(templateXls);
-		 * 
-		 * reportWorkbook.updateSheets();
-		 * 
-		 * try (FileOutputStream fileOut = new FileOutputStream(new
-		 * File("src/main/resources/report.xlsx"))) { templateXls.write(fileOut); } }
-		 */
-
-		Path copied = Paths.get("src/main/resources/report.xlsx");
+		Path copied = Paths.get(reportFile);
 		Path originalPath = Paths.get(reportWorkbook.templateReportLocation());
 		Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
 
@@ -62,8 +54,6 @@ public abstract class ReportWorkbook {
 
 		if (tagFailSkipDataPresent & failSkipDataPresent)
 			return ExecutionAndTagAndFailSkipDataReport.builder().reportData(reportData).build();
-		else if (tagFailSkipDataPresent)
-			return ExecutionAndTagDataReport.builder().reportData(reportData).build();
 		else if (failSkipDataPresent)
 			return ExecutionAndFailSkipDataReport.builder().reportData(reportData).build();
 		else
@@ -72,5 +62,17 @@ public abstract class ReportWorkbook {
 
 	protected abstract String templateReportLocation();
 
-	protected abstract void updateSheets();
+	protected void updateSheets() {
+
+		// Scenarios sheet
+		ScenariosSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+
+		// Tags sheet
+		TagsSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+
+		// Features sheet
+		FeaturesSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+
+		// Execution sheet (?)
+	}
 }

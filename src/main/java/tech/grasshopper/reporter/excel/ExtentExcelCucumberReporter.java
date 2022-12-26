@@ -70,7 +70,7 @@ public class ExtentExcelCucumberReporter extends AbstractFileReporter implements
 			ReportData reportData = new ReportData();
 			reportData.createData(report);
 
-			ReportWorkbook.createReport(reportData);
+			ReportWorkbook.createReport(reportData, reportXls);
 
 		} catch (Exception e) {
 			disposable.dispose();

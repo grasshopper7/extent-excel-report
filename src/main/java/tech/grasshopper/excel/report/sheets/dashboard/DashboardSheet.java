@@ -6,10 +6,7 @@ import tech.grasshopper.excel.report.sheets.Sheet;
 @SuperBuilder
 public abstract class DashboardSheet extends Sheet {
 
-	public static final String DASHBOARD_ALL_SHEET = "Dashboard All";
-	public static final String DASHBOARD_BASIC_SHEET = "Dashboard Basic";
-	public static final String DASHBOARD_BASIC_TAG_SHEET = "Dashboard Tag";
-	public static final String DASHBOARD_BASIC_FAIL_SKIP__SHEET = "Dashboard Fail Skip";
+	public static final String DASHBOARD_ALL_SHEET = "Dashboard";
 	public static final String DASHBOARD_DATA_SHEET = "DB Data";
 
 	public static final String TITLE_CELL = "B2";

@@ -14,8 +14,8 @@ import tech.grasshopper.excel.report.sheets.dashboard.components.TagFailSkipDBCo
 @SuperBuilder
 public class DashboardAllSheet extends DashboardSheet {
 
-	public static final String TAG_FAIL_SKIP_TABLE_CELL = "B38";
-	public static final String FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL = "B60";
+	public static final String TAG_FAIL_SKIP_TABLE_CELL = "B39";
+	public static final String FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL = "B61";
 
 	@Override
 	public void updateSheet() {

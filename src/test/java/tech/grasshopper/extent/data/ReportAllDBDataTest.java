@@ -12,18 +12,17 @@ import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 import tech.grasshopper.reporter.excel.ExtentExcelCucumberReporter;
 
-public class ReportDataTest {
+public class ReportAllDBDataTest {
 
 	@Test
 	public void test() {
 		ExtentReports extent = new ExtentReports();
 		extent.setAnalysisStrategy(AnalysisStrategy.BDD);
 
-		ExtentExcelCucumberReporter excel = new ExtentExcelCucumberReporter("test-output/excel/ExtentExcel.xlsx");
+		ExtentExcelCucumberReporter excel = new ExtentExcelCucumberReporter("test-output/excel/ExtentExcelAllDB.xlsx");
 
 		extent.attachReporter(excel);
 
@@ -61,6 +60,7 @@ public class ReportDataTest {
 		scenarioPass1.createNode(Then.class, "Then SO step.").pass("");
 		ExtentTest fail = featureFail.createNode(Scenario.class, "FAIL");
 		fail.assignCategory("simple");
+		fail.assignCategory("@atherate");
 		fail.createNode(Given.class, "Given SO step.").fail("");
 		ExtentTest skip = featureFail.createNode(Scenario.class, "Scenario SKIP");
 		skip.assignCategory("simple");
