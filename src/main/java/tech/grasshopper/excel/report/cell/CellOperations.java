@@ -21,7 +21,9 @@ public class CellOperations {
 	private XSSFSheet sheet;
 
 	public static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
+	public static final TriConsumer<CellOperations, CellReference, String> printBoldString = CellOperations::writeBoldStringValue;
 	public static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
+	public static final TriConsumer<CellOperations, CellReference, String> printStatus = CellOperations::writeStatus;
 
 	public void writeStringValue(String cellName, String cellValue) {
 
@@ -47,6 +49,11 @@ public class CellOperations {
 		cell.setCellValue(cellValue);
 	}
 
+	public void writeStatus(CellReference cellRef, String status) {
+
+		writeStatus(cellRef, Status.valueOf(status));
+	}
+
 	public void writeStatus(CellReference cellRef, Status status) {
 
 		Cell cell = fetchOrCreateCell(cellRef);
@@ -60,7 +67,7 @@ public class CellOperations {
 		cell.setCellValue(status.toString());
 	}
 
-	public void writeNonExecutableName(CellReference cellRef, String cellValue, Status status) {
+	public void writeStringValueWithStatusColor(CellReference cellRef, String cellValue, Status status) {
 
 		Cell cell = fetchOrCreateCell(cellRef);
 

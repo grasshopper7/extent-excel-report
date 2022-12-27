@@ -88,6 +88,9 @@ public class SheetData {
 		private String name;
 		private Status status;
 
+		private String featureName;
+		private Status featureStatus;
+
 		private TimingData timingData;
 
 		private CountData stepCounts;

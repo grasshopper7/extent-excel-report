@@ -56,7 +56,7 @@ public class TagFailSkipTable {
 
 			for (Feature feature : features) {
 				cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
-				cellOperations.writeNonExecutableName(new CellReference(currentRow, currentCol), feature.getName(),
+				cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), feature.getName(),
 						feature.getStatus());
 
 				// Move to scenario name column
@@ -65,7 +65,7 @@ public class TagFailSkipTable {
 				for (Scenario scenario : feature.getScenarios()) {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
-					cellOperations.writeNonExecutableName(new CellReference(currentRow, currentCol), scenario.getName(),
+					cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), scenario.getName(),
 							scenario.getStatus());
 
 					// Move to scenario status column

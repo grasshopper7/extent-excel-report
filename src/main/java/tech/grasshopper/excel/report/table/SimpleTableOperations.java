@@ -21,8 +21,12 @@ public class SimpleTableOperations<T> {
 		CellReference cellRef = new CellReference(startCell);
 		int startRow = cellRef.getRow();
 		int endRow = startRow + tableData.size();
+		int startColumn = cellRef.getCol();
+		int endColumn = startColumn + printFunctions.size();
 
 		CellOperations dbDataCellOperations = CellOperations.builder().sheet(sheet).build();
+
+		dbDataCellOperations.createCellsWithStyleInRange(startRow, endRow, startColumn, endColumn);
 
 		for (int i = startRow; i < endRow; i++) {
 
@@ -30,7 +34,6 @@ public class SimpleTableOperations<T> {
 			int startCol = cellRef.getCol();
 
 			for (int j = 0; j < rowValue.size(); j++) {
-				// dbDataCellOperations.writeValue(i, startCol, value);
 				printFunctions.get(j).accept(dbDataCellOperations, new CellReference(i, startCol), rowValue.get(j));
 				startCol++;
 			}

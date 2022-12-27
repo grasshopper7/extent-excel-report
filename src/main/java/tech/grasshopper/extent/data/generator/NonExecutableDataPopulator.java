@@ -47,7 +47,8 @@ public class NonExecutableDataPopulator {
 						.skipped(scenario.getSkippedSteps()).build();
 
 				scenarioData.add(ScenarioData.builder().name(scenario.getName()).status(scenario.getStatus())
-						.timingData(timingData).stepCounts(stepCounts).build());
+						.featureName(feature.getName()).featureStatus(feature.getStatus()).timingData(timingData)
+						.stepCounts(stepCounts).build());
 			}
 		}
 	}

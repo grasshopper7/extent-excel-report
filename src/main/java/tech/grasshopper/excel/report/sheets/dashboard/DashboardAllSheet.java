@@ -20,7 +20,7 @@ public class DashboardAllSheet extends DashboardSheet {
 	@Override
 	public void updateSheet() {
 
-		XSSFSheet dbSheet = xssfWorkbook.getSheet(DASHBOARD_ALL_SHEET);
+		XSSFSheet dbSheet = xssfWorkbook.getSheet(DASHBOARD_SHEET);
 
 		XSSFSheet dbDataSheet = xssfWorkbook.getSheet(DASHBOARD_DATA_SHEET);
 

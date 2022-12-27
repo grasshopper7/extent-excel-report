@@ -15,14 +15,14 @@ import com.aventstack.extentreports.gherkin.model.When;
 
 import tech.grasshopper.reporter.excel.ExtentExcelCucumberReporter;
 
-public class ReportBasicDBDataTest {
+public class ReportFailSkipDBDataTest {
 
 	@Test
 	public void test() {
 		ExtentReports extent = new ExtentReports();
 		extent.setAnalysisStrategy(AnalysisStrategy.BDD);
 
-		ExtentExcelCucumberReporter excel = new ExtentExcelCucumberReporter("test-output/excel/ExtentExcelBasicDB.xlsx");
+		ExtentExcelCucumberReporter excel = new ExtentExcelCucumberReporter("test-output/excel/ExtentExcelFailSkipDB.xlsx");
 
 		extent.attachReporter(excel);
 
@@ -45,8 +45,33 @@ public class ReportBasicDBDataTest {
 				"Scenario in a Scenario Outline");
 		scenarioSO.createNode(Given.class, "Given SO step.").pass("");
 		scenarioSO.createNode(When.class, "When SO step.").pass("");
-		scenarioSO.createNode(When.class, "When SO step.").pass("");
 		scenarioSO.createNode(Then.class, "Then SO step.").pass("");
+
+		ExtentTest featureFail = extent.createTest(Feature.class, "Feature Fail");
+		ExtentTest scenarioFail = featureFail.createNode(Scenario.class, "Scenario Fail");
+		scenarioFail.createNode(Given.class, "Given step.").pass("");
+		scenarioFail.createNode(When.class, "When step.").pass("");
+		scenarioFail.createNode(Then.class, "Then step.").fail("");
+		ExtentTest scenarioPass1 = featureFail.createNode(Scenario.class, "SO Scenario Fail Pass");
+		//scenarioPass1.assignCategory("failtag");
+		scenarioPass1.createNode(Given.class, "Given SO step.").pass("");
+		scenarioPass1.createNode(When.class, "When SO step.").pass("");
+		scenarioPass1.createNode(Then.class, "Then SO step.").pass("");
+		ExtentTest fail = featureFail.createNode(Scenario.class, "FAIL");
+		fail.createNode(Given.class, "Given SO step.").fail("");
+		ExtentTest skip = featureFail.createNode(Scenario.class, "Scenario SKIP");
+		skip.createNode(Given.class, "Given SO step.").skip("");
+
+		ExtentTest featureSkip = extent.createTest(Feature.class, "Feature Skip");
+		ExtentTest scenarioSkip = featureSkip.createNode(Scenario.class, "Scenario Skip");
+		scenarioSkip.createNode(Given.class, "Given step.").pass("");
+		scenarioSkip.createNode(When.class, "When step.").pass("");
+		scenarioSkip.createNode(Then.class, "Then step.").skip("");
+		ExtentTest scenarioPass2 = featureSkip.createNode(Scenario.class, "SO Scenario Skip Pass");
+		//scenarioPass2.assignCategory("skiptag");
+		scenarioPass2.createNode(Given.class, "Given SO step.").pass("");
+		scenarioPass2.createNode(When.class, "When SO step.").pass("");
+		scenarioPass2.createNode(Then.class, "Then SO step.").pass("");
 
 		extent.flush();
 	}

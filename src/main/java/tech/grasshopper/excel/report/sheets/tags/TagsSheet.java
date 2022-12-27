@@ -8,8 +8,10 @@ public class TagsSheet extends Sheet {
 
 	@Override
 	public void updateSheet() {
-		// TODO Auto-generated method stub
 
+		if (reportData.getTagData().isEmpty()) {
+			deleteSheet(TAGS_SHEET);
+			return;
+		}
 	}
-
 }
