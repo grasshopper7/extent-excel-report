@@ -1,5 +1,7 @@
 package tech.grasshopper.excel.report.sheets.dashboard;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.Sheet;
 
@@ -43,4 +45,14 @@ public abstract class DashboardSheet extends Sheet {
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL = "R20";
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL = "S20";
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL = "T20";
+
+	protected XSSFSheet dbDataSheet;
+
+	@Override
+	public void updateSheet() {
+
+		sheet = workbook.getSheet(DASHBOARD_SHEET);
+
+		dbDataSheet = workbook.getSheet(DASHBOARD_DATA_SHEET);
+	}
 }

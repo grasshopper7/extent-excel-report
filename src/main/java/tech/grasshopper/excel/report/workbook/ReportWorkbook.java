@@ -65,13 +65,13 @@ public abstract class ReportWorkbook {
 	protected void updateSheets() {
 
 		// Scenarios sheet
-		ScenariosSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+		ScenariosSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		// Tags sheet
-		TagsSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+		TagsSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		// Features sheet
-		FeaturesSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+		FeaturesSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		// Execution sheet (?)
 	}

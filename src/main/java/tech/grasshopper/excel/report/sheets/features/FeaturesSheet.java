@@ -12,7 +12,6 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.cell.CellOperations;
@@ -32,12 +31,10 @@ public class FeaturesSheet extends Sheet {
 	public static final String FEATURES_TABLE_STEP_FAILED_CELL = "G21";
 	public static final String FEATURES_TABLE_STEP_SKIPPED_CELL = "H21";
 
-	private XSSFSheet sheet;
-
 	@Override
 	public void updateSheet() {
 
-		sheet = xssfWorkbook.getSheet(FEATURES_SHEET);
+		sheet = workbook.getSheet(FEATURES_SHEET);
 
 		if (reportData.getFeatureData().isEmpty()) {
 			deleteSheet(FEATURES_SHEET);
@@ -46,6 +43,8 @@ public class FeaturesSheet extends Sheet {
 
 		updateFeaturesTableData();
 		refreshFeaturesChartPlot();
+
+		sheet.createFreezePane(0, FREEZE_PANE_ROW);
 	}
 
 	private void updateFeaturesTableData() {

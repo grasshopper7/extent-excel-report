@@ -20,25 +20,23 @@ public class DashboardAllSheet extends DashboardSheet {
 	@Override
 	public void updateSheet() {
 
-		XSSFSheet dbSheet = xssfWorkbook.getSheet(DASHBOARD_SHEET);
+		super.updateSheet();
 
-		XSSFSheet dbDataSheet = xssfWorkbook.getSheet(DASHBOARD_DATA_SHEET);
-
-		BasicDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData).build()
+		BasicDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData).build()
 				.createComponent();
 
 		int tagRowCount = (int) reportData.getFailSkipFeatureAndScenarioTagData().values().stream()
 				.flatMap(Collection::stream).mapToLong(f -> f.getTotalScenarios()).sum();
 
-		moveDownFeatureScenarioFailSkipDBComponent(dbSheet, tagRowCount);
+		moveDownFeatureScenarioFailSkipDBComponent(sheet, tagRowCount);
 
-		TagFailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
+		TagFailSkipDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData)
 				.tagBarChartIndex(3).failSkipTableStartCell(TAG_FAIL_SKIP_TABLE_CELL).build().createComponent();
 
 		CellReference origCellRef = new CellReference(FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL);
 		CellReference cellRef = new CellReference(origCellRef.getRow() + tagRowCount, origCellRef.getCol());
 
-		FeatureScenarioFailSkipDBComponent.builder().dbSheet(dbSheet).dbDataSheet(dbDataSheet).reportData(reportData)
+		FeatureScenarioFailSkipDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData)
 				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell(cellRef.formatAsString())
 				.build().createComponent();
 	}

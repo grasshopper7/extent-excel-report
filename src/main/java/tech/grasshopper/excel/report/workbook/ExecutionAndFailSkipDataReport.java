@@ -15,8 +15,7 @@ public class ExecutionAndFailSkipDataReport extends ReportWorkbook {
 	protected void updateSheets() {
 
 		// Dashboard sheet
-		DashboardBasicAndFailSkipSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build()
-				.updateSheet();
+		DashboardBasicAndFailSkipSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		super.updateSheets();
 	}

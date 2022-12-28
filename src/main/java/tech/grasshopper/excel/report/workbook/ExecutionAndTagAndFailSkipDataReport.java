@@ -14,7 +14,7 @@ public class ExecutionAndTagAndFailSkipDataReport extends ReportWorkbook {
 	protected void updateSheets() {
 
 		// Dashboard sheet
-		DashboardAllSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+		DashboardAllSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		super.updateSheets();
 	}

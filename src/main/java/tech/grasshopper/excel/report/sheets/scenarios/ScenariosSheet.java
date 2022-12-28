@@ -12,7 +12,6 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.cell.CellOperations;
@@ -32,12 +31,10 @@ public class ScenariosSheet extends Sheet {
 	public static final String SCENARIOS_TABLE_STEP_FAILED_CELL = "I21";
 	public static final String SCENARIOS_TABLE_STEP_SKIPPED_CELL = "J21";
 
-	private XSSFSheet sheet;
-
 	@Override
 	public void updateSheet() {
 
-		sheet = xssfWorkbook.getSheet(SCENARIOS_SHEET);
+		sheet = workbook.getSheet(SCENARIOS_SHEET);
 
 		if (reportData.getScenarioData().isEmpty()) {
 			deleteSheet(SCENARIOS_SHEET);
@@ -46,6 +43,8 @@ public class ScenariosSheet extends Sheet {
 
 		updateScenariosTableData();
 		refreshScenariosChartPlot();
+
+		sheet.createFreezePane(0, FREEZE_PANE_ROW);
 	}
 
 	private void updateScenariosTableData() {

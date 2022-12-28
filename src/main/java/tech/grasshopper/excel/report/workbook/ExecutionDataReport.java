@@ -14,7 +14,7 @@ public class ExecutionDataReport extends ReportWorkbook {
 	protected void updateSheets() {
 
 		// Dashboard sheet
-		DashboardBasicSheet.builder().reportData(reportData).xssfWorkbook(xssfWorkbook).build().updateSheet();
+		DashboardBasicSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		super.updateSheets();
 	}
