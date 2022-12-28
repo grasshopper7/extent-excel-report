@@ -52,9 +52,7 @@ public class TagsSheet extends Sheet {
 		CellReference cellRef = new CellReference(origCellRef.getRow() + reportData.getTagData().size(),
 				origCellRef.getCol());
 
-		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFeatureAndScenarioTagData())
-				.sheet(sheet).startCell(cellRef.formatAsString()).columnCellCount(new int[] { 1, 3, 2, 1 }).build()
-				.writeTableValues();
+		updateTagsFeatureScenarioTableData(cellRef);
 
 		sheet.createFreezePane(0, FREEZE_PANE_ROW);
 	}
@@ -110,5 +108,12 @@ public class TagsSheet extends Sheet {
 		valueRanges.add(convertCellReferenceToChartDataRange(TAGS_COUNT_TABLE_SCENARIO_FAILED_CELL, rows));
 
 		chartOperations.updateBarChartPlot(0, categoryRange, valueRanges);
+	}
+
+	private void updateTagsFeatureScenarioTableData(CellReference cellRef) {
+
+		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFeatureAndScenarioTagData())
+				.sheet(sheet).startCell(cellRef.formatAsString()).columnCellCount(new int[] { 1, 3, 2, 1 }).build()
+				.writeTableValues();
 	}
 }
