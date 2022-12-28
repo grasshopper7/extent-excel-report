@@ -26,10 +26,10 @@ import tech.grasshopper.extent.data.SheetData.ScenarioData;
 @SuperBuilder
 public class ScenariosSheet extends Sheet {
 
-	public static final String SCENARIOS_TABLE_NAME_CELL = "B21";
-	public static final String SCENARIOS_TABLE_STEP_PASSED_CELL = "H21";
-	public static final String SCENARIOS_TABLE_STEP_FAILED_CELL = "I21";
-	public static final String SCENARIOS_TABLE_STEP_SKIPPED_CELL = "J21";
+	private static final String SCENARIOS_TABLE_NAME_CELL = "B21";
+	private static final String SCENARIOS_TABLE_STEP_PASSED_CELL = "H21";
+	private static final String SCENARIOS_TABLE_STEP_FAILED_CELL = "I21";
+	private static final String SCENARIOS_TABLE_STEP_SKIPPED_CELL = "J21";
 
 	@Override
 	public void updateSheet() {

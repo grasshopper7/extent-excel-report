@@ -7,7 +7,7 @@ import tech.grasshopper.excel.report.sheets.dashboard.components.FeatureScenario
 @SuperBuilder
 public class DashboardBasicAndFailSkipSheet extends DashboardSheet {
 
-	public static final String FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL = "B39";
+	private static final String FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL = "B39";
 
 	@Override
 	public void updateSheet() {

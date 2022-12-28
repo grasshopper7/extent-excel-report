@@ -77,23 +77,36 @@ public class TagDataPopulator {
 				if (scenario.getStatus() == Status.PASSED)
 					continue;
 
-				for (String tag : scenario.getTags()) {
-					List<Feature> feats = data.computeIfAbsent(tag, f -> new ArrayList<Feature>());
-					
-					Feature feat = feats.stream().filter(f -> f.getName().equals(feature.getName())).findAny()
-							.orElseGet(() -> {
-								Feature f = Feature.builder().name(feature.getName()).status(feature.getStatus())
-										.build();
-								feats.add(f);
-								return f;
-							});
-
-					feat.getScenarios()
-							.add(Scenario.builder().name(scenario.getName()).status(scenario.getStatus()).build());
-
-					feat.setTotalScenarios(feat.getTotalScenarios() + 1);
-				}
+				populateTagFeatureScenarioData(data, feature, scenario);
 			}
+		}
+	}
+
+	public void populateFeatureScenarioData(Map<String, List<Feature>> data) {
+
+		for (Feature feature : features) {
+
+			for (Scenario scenario : feature.getScenarios()) {
+
+				populateTagFeatureScenarioData(data, feature, scenario);
+			}
+		}
+	}
+
+	private void populateTagFeatureScenarioData(Map<String, List<Feature>> data, Feature feature, Scenario scenario) {
+
+		for (String tag : scenario.getTags()) {
+			List<Feature> feats = data.computeIfAbsent(tag, f -> new ArrayList<Feature>());
+
+			Feature feat = feats.stream().filter(f -> f.getName().equals(feature.getName())).findAny().orElseGet(() -> {
+				Feature f = Feature.builder().name(feature.getName()).status(feature.getStatus()).build();
+				feats.add(f);
+				return f;
+			});
+
+			feat.getScenarios().add(Scenario.builder().name(scenario.getName()).status(scenario.getStatus()).build());
+
+			feat.setTotalScenarios(feat.getTotalScenarios() + 1);
 		}
 	}
 }

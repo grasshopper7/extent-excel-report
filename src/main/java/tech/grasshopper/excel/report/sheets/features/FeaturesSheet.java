@@ -26,10 +26,10 @@ import tech.grasshopper.extent.data.SheetData.FeatureData;
 @SuperBuilder
 public class FeaturesSheet extends Sheet {
 
-	public static final String FEATURES_TABLE_NAME_CELL = "B21";
-	public static final String FEATURES_TABLE_STEP_PASSED_CELL = "F21";
-	public static final String FEATURES_TABLE_STEP_FAILED_CELL = "G21";
-	public static final String FEATURES_TABLE_STEP_SKIPPED_CELL = "H21";
+	private static final String FEATURES_TABLE_NAME_CELL = "B21";
+	private static final String FEATURES_TABLE_SCENARIO_PASSED_CELL = "F21";
+	private static final String FEATURES_TABLE_SCENARIO_FAILED_CELL = "G21";
+	private static final String FEATURES_TABLE_SCENARIO_SKIPPED_CELL = "H21";
 
 	@Override
 	public void updateSheet() {
@@ -99,9 +99,9 @@ public class FeaturesSheet extends Sheet {
 		ChartDataSeriesRange categoryRange = convertCellReferenceToChartDataRange(FEATURES_TABLE_NAME_CELL, rows);
 
 		List<ChartDataSeriesRange> valueRanges = new ArrayList<>();
-		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_STEP_PASSED_CELL, rows));
-		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_STEP_SKIPPED_CELL, rows));
-		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_STEP_FAILED_CELL, rows));
+		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_SCENARIO_PASSED_CELL, rows));
+		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_SCENARIO_SKIPPED_CELL, rows));
+		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_SCENARIO_FAILED_CELL, rows));
 
 		chartOperations.updateBarChartPlot(0, categoryRange, valueRanges);
 	}

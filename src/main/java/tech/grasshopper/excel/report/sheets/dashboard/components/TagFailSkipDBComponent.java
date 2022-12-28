@@ -20,7 +20,7 @@ import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
-import tech.grasshopper.excel.report.table.TagFailSkipTable;
+import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 
@@ -87,7 +87,8 @@ public class TagFailSkipDBComponent extends DBComponent {
 
 	private void updateDBScenarioFeatureFailSkipTagTableData() {
 
-		TagFailSkipTable.builder().failSkipFeatureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
-				.sheet(dbSheet).startCell(failSkipTableStartCell).build().writeTableValues();
+		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
+				.sheet(dbSheet).startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 }).build()
+				.writeTableValues();
 	}
 }

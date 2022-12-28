@@ -38,6 +38,8 @@ public class ReportData {
 
 	private List<TagCountData> tagData = new ArrayList<>();
 
+	private Map<String, List<Feature>> featureAndScenarioTagData = new LinkedHashMap<>();
+
 	private List<FeatureData> featureData = new ArrayList<>();
 
 	private List<ScenarioData> scenarioData = new ArrayList<>();
@@ -59,6 +61,8 @@ public class ReportData {
 		populateFailSkipFeatureAndScenarioData();
 
 		populateTagData();
+
+		populateFeatureAndScenarioTagData();
 
 		populateFeatureData();
 
@@ -114,6 +118,11 @@ public class ReportData {
 	private void populateTagData() {
 
 		TagDataPopulator.builder().features(features).build().populateTagCountData(tagData);
+	}
+
+	private void populateFeatureAndScenarioTagData() {
+
+		TagDataPopulator.builder().features(features).build().populateFeatureScenarioData(featureAndScenarioTagData);
 	}
 
 	private void populateFeatureData() {

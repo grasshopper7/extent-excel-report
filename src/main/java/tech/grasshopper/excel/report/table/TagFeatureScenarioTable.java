@@ -15,15 +15,15 @@ import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Scenario;
 
 @Builder
-public class TagFailSkipTable {
+public class TagFeatureScenarioTable {
 
 	private XSSFSheet sheet;
 
 	private String startCell;
 
-	private Map<String, List<Feature>> failSkipFeatureAndScenarioTagData;
+	private Map<String, List<Feature>> featureAndScenarioTagData;
 
-	private final int[] columnCellCount = { 1, 3, 1, 1 };
+	private int[] columnCellCount;
 
 	public void writeTableValues() {
 
@@ -32,14 +32,14 @@ public class TagFailSkipTable {
 		int startRow = cellRef.getRow();
 		int startCol = cellRef.getCol();
 
-		int rowCount = (int) failSkipFeatureAndScenarioTagData.values().stream().flatMap(Collection::stream)
+		int rowCount = (int) featureAndScenarioTagData.values().stream().flatMap(Collection::stream)
 				.mapToLong(f -> f.getTotalScenarios()).sum();
 		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol,
 				startCol + Arrays.stream(columnCellCount).sum());
 
 		int currentRow = startRow;
 
-		for (Entry<String, List<Feature>> entry : failSkipFeatureAndScenarioTagData.entrySet()) {
+		for (Entry<String, List<Feature>> entry : featureAndScenarioTagData.entrySet()) {
 			// Reset to tag name column
 			int currentCol = startCol;
 
@@ -56,8 +56,8 @@ public class TagFailSkipTable {
 
 			for (Feature feature : features) {
 				cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
-				cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), feature.getName(),
-						feature.getStatus());
+				cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
+						feature.getName(), feature.getStatus());
 
 				// Move to scenario name column
 				currentCol = currentCol + columnCellCount[1];
@@ -65,8 +65,8 @@ public class TagFailSkipTable {
 				for (Scenario scenario : feature.getScenarios()) {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
-					cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), scenario.getName(),
-							scenario.getStatus());
+					cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
+							scenario.getName(), scenario.getStatus());
 
 					// Move to scenario status column
 					currentCol = currentCol + columnCellCount[2];
