@@ -30,18 +30,17 @@ public abstract class ReportWorkbook {
 
 		ReportWorkbook reportWorkbook = createReportType(reportData);
 
-		Path copied = Paths.get(reportFile);
-		Path originalPath = Paths.get(reportWorkbook.templateReportLocation());
-		Files.copy(originalPath, copied, StandardCopyOption.REPLACE_EXISTING);
+		Path reportPath = Paths.get(reportFile);
+		Path templatePath = Paths.get(reportWorkbook.templateReportLocation());
+		Files.copy(templatePath, reportPath, StandardCopyOption.REPLACE_EXISTING);
 
-		File xlsxFile = copied.toFile();
-		FileInputStream inputStream = new FileInputStream(xlsxFile);
+		FileInputStream inputStream = new FileInputStream(reportPath.toFile());
 		XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 		reportWorkbook.setXssfWorkbook(workbook);
 		reportWorkbook.updateSheets();
 		inputStream.close();
 
-		FileOutputStream os = new FileOutputStream(xlsxFile);
+		FileOutputStream os = new FileOutputStream(reportPath.toFile());
 		workbook.write(os);
 		workbook.close();
 		os.close();
