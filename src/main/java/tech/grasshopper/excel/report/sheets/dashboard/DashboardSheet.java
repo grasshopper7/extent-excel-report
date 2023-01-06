@@ -1,5 +1,6 @@
 package tech.grasshopper.excel.report.sheets.dashboard;
 
+import org.apache.poi.ss.usermodel.SheetVisibility;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.experimental.SuperBuilder;
@@ -7,9 +8,6 @@ import tech.grasshopper.excel.report.sheets.Sheet;
 
 @SuperBuilder
 public abstract class DashboardSheet extends Sheet {
-
-	public static final String DASHBOARD_SHEET = "Dashboard";
-	public static final String DASHBOARD_DATA_SHEET = "DB Data";
 
 	public static final String TITLE_CELL = "B2";
 	public static final String CURRENT_DATE_CELL = "B3";
@@ -54,5 +52,7 @@ public abstract class DashboardSheet extends Sheet {
 		sheet = workbook.getSheet(DASHBOARD_SHEET);
 
 		dbDataSheet = workbook.getSheet(DASHBOARD_DATA_SHEET);
+
+		workbook.setSheetVisibility(workbook.getSheetIndex(dbDataSheet), SheetVisibility.VERY_HIDDEN);
 	}
 }

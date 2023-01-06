@@ -37,6 +37,7 @@ public abstract class ReportWorkbook {
 		XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 		reportWorkbook.setXssfWorkbook(workbook);
 		reportWorkbook.updateSheets();
+		workbook.lockStructure();
 		inputStream.close();
 
 		FileOutputStream os = new FileOutputStream(reportPath.toFile());
