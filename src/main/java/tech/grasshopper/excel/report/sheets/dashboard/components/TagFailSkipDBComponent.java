@@ -88,7 +88,7 @@ public class TagFailSkipDBComponent extends DBComponent {
 	private void updateDBScenarioFeatureFailSkipTagTableData() {
 
 		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
-				.sheet(dbSheet).startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 }).build()
-				.writeTableValues();
+				.sheet(dbSheet).startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 })
+				.groupRows(true).build().writeTableValues();
 	}
 }

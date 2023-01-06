@@ -10,6 +10,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
+import lombok.Builder.Default;
 import tech.grasshopper.excel.report.cell.CellOperations;
 import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Scenario;
@@ -24,6 +25,9 @@ public class TagFeatureScenarioTable {
 	private Map<String, List<Feature>> featureAndScenarioTagData;
 
 	private int[] columnCellCount;
+
+	@Default
+	private boolean groupRows = false;
 
 	public void writeTableValues() {
 
@@ -85,7 +89,9 @@ public class TagFeatureScenarioTable {
 			}
 		}
 
-		sheet.groupRow(startRow, startRow + rowCount - 1);
-		sheet.setRowGroupCollapsed(startRow, true);
+		if (groupRows) {
+			sheet.groupRow(startRow, startRow + rowCount - 1);
+			sheet.setRowGroupCollapsed(startRow, true);
+		}
 	}
 }
