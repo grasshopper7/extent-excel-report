@@ -8,7 +8,8 @@ public class ExecutionAndFailSkipDataReport extends ReportWorkbook {
 	@Override
 
 	protected String templateReportLocation() {
-		return "src/main/resources/templates/report template - Fail Skip DB.xlsx";
+		//return "src/main/resources/templates/report template - Fail Skip DB.xlsx";
+		return "/templates/report template - Fail Skip DB.xlsx";
 	}
 
 	@Override

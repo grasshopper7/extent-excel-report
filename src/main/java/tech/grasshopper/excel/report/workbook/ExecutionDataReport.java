@@ -7,7 +7,8 @@ import tech.grasshopper.excel.report.sheets.dashboard.DashboardBasicSheet;
 public class ExecutionDataReport extends ReportWorkbook {
 
 	protected String templateReportLocation() {
-		return "src/main/resources/templates/report template - Basic DB.xlsx";
+		//return "src/main/resources/templates/report template - Basic DB.xlsx";
+		return "/templates/report template - Basic DB.xlsx";
 	}
 
 	@Override

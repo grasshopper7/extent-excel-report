@@ -7,7 +7,8 @@ import tech.grasshopper.excel.report.sheets.dashboard.DashboardAllSheet;
 public class ExecutionAndTagAndFailSkipDataReport extends ReportWorkbook {
 
 	protected String templateReportLocation() {
-		return "src/main/resources/templates/report template - All DB.xlsx";
+		//return "src/main/resources/templates/report template - All DB.xlsx";
+		return "/templates/report template - All DB.xlsx";
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package tech.grasshopper.excel.report.workbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,8 +31,11 @@ public abstract class ReportWorkbook {
 		ReportWorkbook reportWorkbook = createReportType(reportData);
 
 		Path reportPath = Paths.get(reportFile);
-		Path templatePath = Paths.get(reportWorkbook.templateReportLocation());
-		Files.copy(templatePath, reportPath, StandardCopyOption.REPLACE_EXISTING);
+		// Path templatePath = Paths.get(reportWorkbook.templateReportLocation());
+		InputStream templateInputStream = reportWorkbook.getClass()
+				.getResourceAsStream(reportWorkbook.templateReportLocation());
+		Files.copy(templateInputStream, reportPath, StandardCopyOption.REPLACE_EXISTING);
+		// Files.copy(templatePath, reportPath, StandardCopyOption.REPLACE_EXISTING);
 
 		FileInputStream inputStream = new FileInputStream(reportPath.toFile());
 		XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
