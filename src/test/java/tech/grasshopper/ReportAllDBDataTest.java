@@ -1,4 +1,4 @@
-package tech.grasshopper.extent.data;
+package tech.grasshopper;
 
 import org.junit.jupiter.api.Test;
 
