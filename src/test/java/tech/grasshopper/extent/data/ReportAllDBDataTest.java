@@ -13,7 +13,7 @@ import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 
-import tech.grasshopper.reporter.excel.ExtentExcelCucumberReporter;
+import tech.grasshopper.reporter.ExtentExcelCucumberReporter;
 
 public class ReportAllDBDataTest {
 
