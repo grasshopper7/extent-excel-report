@@ -147,6 +147,7 @@ public class CellOperations {
 		style.setBorderRight(BorderStyle.HAIR);
 		style.setBorderBottom(BorderStyle.HAIR);
 		style.setBorderLeft(BorderStyle.HAIR);
+		style.setWrapText(true);
 
 		return style;
 	}
