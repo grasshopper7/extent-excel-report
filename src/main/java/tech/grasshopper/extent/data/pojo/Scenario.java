@@ -34,6 +34,9 @@ public class Scenario extends NonExecutable {
 	@Default
 	private long totalSteps = 0;
 
+	@Default
+	private List<Executable> stackTraceExecutables = new ArrayList<>();
+
 	public List<Hook> getBeforeAfterHooks() {
 		List<Hook> hooks = new ArrayList<>();
 		hooks.addAll(before);

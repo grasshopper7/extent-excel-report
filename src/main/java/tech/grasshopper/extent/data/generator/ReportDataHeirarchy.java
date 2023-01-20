@@ -3,14 +3,17 @@ package tech.grasshopper.extent.data.generator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.aventstack.extentreports.gherkin.model.Asterisk;
 import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
+import com.aventstack.extentreports.model.Log;
 import com.aventstack.extentreports.model.Report;
 import com.aventstack.extentreports.model.Test;
 
 import lombok.Builder;
 import tech.grasshopper.excel.report.util.DateUtil;
+import tech.grasshopper.extent.data.pojo.Executable.ExecutableType;
 import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Hook;
 import tech.grasshopper.extent.data.pojo.Hook.HookType;
@@ -83,7 +86,7 @@ public class ReportDataHeirarchy {
 				case BEFORE_STEP:
 					if (loopObject == LoopObject.INITIAL || loopObject == LoopObject.STEP
 							|| loopObject == LoopObject.AFTER_STEP) {
-						step = Step.builder().build();
+						step = Step.builder().executableType(ExecutableType.STEP).build();
 					}
 
 					step.addBeforeStepHook(createHook(stepTest));
@@ -97,7 +100,7 @@ public class ReportDataHeirarchy {
 			} else {
 				if (loopObject == LoopObject.INITIAL || loopObject == LoopObject.STEP
 						|| loopObject == LoopObject.AFTER_STEP) {
-					step = Step.builder().build();
+					step = Step.builder().executableType(ExecutableType.STEP).build();
 				}
 
 				addStepData(step, stepTest);
@@ -111,6 +114,7 @@ public class ReportDataHeirarchy {
 		step.setName(stepTest.getName());
 		step.setStatus(convertStatus(stepTest.getStatus()));
 		step.setKeyword(stepTest.getBddType().getSimpleName());
+		step.setErrorMessage(getStackTrace(stepTest));
 		step.setStartTime(DateUtil.convertToLocalDateTimeFromDate(stepTest.getStartTime()));
 		step.setEndTime(DateUtil.convertToLocalDateTimeFromDate(stepTest.getEndTime()));
 	}
@@ -120,8 +124,9 @@ public class ReportDataHeirarchy {
 	}
 
 	private Hook createHook(Test hookTest) {
-		return Hook.builder().location(hookTest.getName()).hookType(HookType.valueOf(hookTest.getDescription()))
-				.status(convertStatus(hookTest.getStatus()))
+		return Hook.builder().executableType(ExecutableType.HOOK).location(hookTest.getName())
+				.hookType(HookType.valueOf(hookTest.getDescription())).status(convertStatus(hookTest.getStatus()))
+				.errorMessage(getStackTrace(hookTest))
 				.startTime(DateUtil.convertToLocalDateTimeFromDate(hookTest.getStartTime()))
 				.endTime(DateUtil.convertToLocalDateTimeFromDate(hookTest.getEndTime())).build();
 	}
@@ -141,5 +146,20 @@ public class ReportDataHeirarchy {
 		else if (extentStatus == com.aventstack.extentreports.Status.FAIL)
 			status = Status.FAILED;
 		return status;
+	}
+
+	public String getStackTrace(Test test) {
+
+		List<Log> failAndSkipLogs = test.getLogs().stream()
+				.filter(l -> l.getStatus() == com.aventstack.extentreports.Status.FAIL
+						|| l.getStatus() == com.aventstack.extentreports.Status.SKIP)
+				.collect(Collectors.toList());
+
+		for (Log log : failAndSkipLogs) {
+
+			if (log.getException() != null)
+				return log.getException().getStackTrace();
+		}
+		return "";
 	}
 }

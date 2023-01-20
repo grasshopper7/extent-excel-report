@@ -14,6 +14,7 @@ import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 import tech.grasshopper.extent.data.generator.DashboardDataPopulator;
+import tech.grasshopper.extent.data.generator.ExceptionDataPopulator;
 import tech.grasshopper.extent.data.generator.FailSkipDataPopulator;
 import tech.grasshopper.extent.data.generator.HeirarchyDataPopulator;
 import tech.grasshopper.extent.data.generator.NonExecutableDataPopulator;
@@ -44,6 +45,8 @@ public class ReportData {
 
 	private List<ScenarioData> scenarioData = new ArrayList<>();
 
+	private List<Feature> exceptionData = new ArrayList<>();
+
 	public void createData(Report report) {
 
 		features = ReportDataHeirarchy.builder().report(report).build().createFeatureHeirarchy();
@@ -67,6 +70,8 @@ public class ReportData {
 		populateFeatureData();
 
 		populateScenarioData();
+
+		populateExceptionData();
 	}
 
 	private void checkData() {
@@ -133,5 +138,10 @@ public class ReportData {
 	private void populateScenarioData() {
 
 		NonExecutableDataPopulator.builder().features(features).build().populateScenarioData(scenarioData);
+	}
+
+	private void populateExceptionData() {
+
+		ExceptionDataPopulator.builder().features(features).build().populateExceptionData(exceptionData);
 	}
 }

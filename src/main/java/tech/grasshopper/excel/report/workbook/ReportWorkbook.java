@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.sheets.exceptions.ExceptionsSheet;
 import tech.grasshopper.excel.report.sheets.features.FeaturesSheet;
 import tech.grasshopper.excel.report.sheets.scenarios.ScenariosSheet;
 import tech.grasshopper.excel.report.sheets.tags.TagsSheet;
@@ -75,6 +76,9 @@ public abstract class ReportWorkbook {
 
 		// Features sheet
 		FeaturesSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
+
+		// Exceptions sheet
+		ExceptionsSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		// Execution sheet (?)
 	}

@@ -16,5 +16,14 @@ public abstract class Executable extends BaseEntity {
 	protected Status status;
 
 	@Default
+	protected String errorMessage = "";
+
+	@Default
 	protected String location = "";
+
+	private ExecutableType executableType;
+
+	public static enum ExecutableType {
+		STEP, HOOK;
+	}
 }
