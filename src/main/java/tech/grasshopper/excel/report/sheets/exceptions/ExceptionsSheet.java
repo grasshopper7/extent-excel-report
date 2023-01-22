@@ -5,9 +5,6 @@ import org.apache.poi.ss.util.CellReference;
 import lombok.experimental.SuperBuilder;
 import tech.grasshopper.excel.report.sheets.Sheet;
 import tech.grasshopper.excel.report.table.ExceptionsTable;
-import tech.grasshopper.extent.data.pojo.Executable;
-import tech.grasshopper.extent.data.pojo.Feature;
-import tech.grasshopper.extent.data.pojo.Scenario;
 
 @SuperBuilder
 public class ExceptionsSheet extends Sheet {
@@ -32,24 +29,6 @@ public class ExceptionsSheet extends Sheet {
 	}
 
 	private void updateExceptionsTableData(CellReference cellRef) {
-
-		for (Feature feature : reportData.getExceptionData()) {
-
-			System.out.println("Feature - " + feature.getName() + " - " + feature.getTotalScenarios() + " - "
-					+ feature.getTotalSteps());
-
-			for (Scenario scenario : feature.getScenarios()) {
-
-				System.out.println("Scenario - " + scenario.getName() + " - " + scenario.getTotalSteps());
-
-				for (Executable exec : scenario.getStackTraceExecutables()) {
-
-					System.out.println("Executable - " + exec.getName() + " - " + exec.getStatus() + " - "
-							+ exec.getExecutableType());
-					System.out.println(exec.getErrorMessage());
-				}
-			}
-		}
 
 		ExceptionsTable.builder().exceptionsData(reportData.getExceptionData()).sheet(sheet)
 				.startCell(cellRef.formatAsString()).build().writeTableValues();

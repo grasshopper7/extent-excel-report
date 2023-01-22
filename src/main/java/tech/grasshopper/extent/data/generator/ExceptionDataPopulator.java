@@ -23,20 +23,21 @@ public class ExceptionDataPopulator {
 				continue;
 
 			Feature feat = Feature.builder().name(feature.getName()).status(feature.getStatus()).build();
-			data.add(feat);
 
 			for (Scenario scenario : feature.getScenarios()) {
 				if (scenario.getStatus() == Status.PASSED)
 					continue;
 
 				Scenario scen = Scenario.builder().name(scenario.getName()).status(scenario.getStatus()).build();
-				feat.getScenarios().add(scen);
 
-				feat.setTotalScenarios(feat.getTotalScenarios() + 1);
+				boolean presentStackExec = false;
 
 				for (Executable executable : scenario.getStepsAndHooks()) {
-					if (executable.getStatus() != Status.FAILED)
+					if (executable.getStatus() == Status.PASSED
+							|| (executable.getStatus() == Status.SKIPPED && executable.getErrorMessage().isEmpty()))
 						continue;
+
+					presentStackExec = true;
 
 					if (executable.getExecutableType() == ExecutableType.STEP) {
 						scen.getStackTraceExecutables()
@@ -44,20 +45,25 @@ public class ExceptionDataPopulator {
 										.status(executable.getStatus()).errorMessage(executable.getErrorMessage())
 										.build());
 
-						feat.setTotalSteps(feat.getTotalSteps() + 1);
-						scen.setTotalSteps(scen.getTotalSteps() + 1);
-
 					} else if (executable.getExecutableType() == ExecutableType.HOOK) {
 						scen.getStackTraceExecutables()
 								.add(Hook.builder().name(executable.getName()).location(executable.getLocation())
 										.executableType(ExecutableType.HOOK).status(executable.getStatus())
 										.errorMessage(executable.getErrorMessage()).build());
-
-						feat.setTotalSteps(feat.getTotalSteps() + 1);
-						scen.setTotalSteps(scen.getTotalSteps() + 1);
 					}
+
+					feat.setTotalSteps(feat.getTotalSteps() + 1);
+					scen.setTotalSteps(scen.getTotalSteps() + 1);
+				}
+
+				if (presentStackExec) {
+					feat.getScenarios().add(scen);
+					feat.setTotalScenarios(feat.getTotalScenarios() + 1);
 				}
 			}
+
+			if (!feat.getScenarios().isEmpty())
+				data.add(feat);
 		}
 	}
 }
