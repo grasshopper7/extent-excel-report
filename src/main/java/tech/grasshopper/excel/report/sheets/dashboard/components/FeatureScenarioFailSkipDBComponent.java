@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
 
 import lombok.experimental.SuperBuilder;
@@ -26,6 +25,7 @@ import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.FeatureScenarioFailSkipTable;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
+import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;

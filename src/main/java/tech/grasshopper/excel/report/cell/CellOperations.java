@@ -1,6 +1,5 @@
 package tech.grasshopper.excel.report.cell;
 
-import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -13,6 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
+import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.pojo.Status;
 
 @Builder

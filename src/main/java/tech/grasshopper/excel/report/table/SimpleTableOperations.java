@@ -3,12 +3,12 @@ package tech.grasshopper.excel.report.table;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
 import tech.grasshopper.excel.report.cell.CellOperations;
+import tech.grasshopper.excel.report.util.TriConsumer;
 
 @Builder
 public class SimpleTableOperations<T> {

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -20,6 +19,7 @@ import tech.grasshopper.excel.report.sheets.ComponentShifter;
 import tech.grasshopper.excel.report.sheets.Sheet;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
+import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 

@@ -1,18 +1,17 @@
 package tech.grasshopper.excel.report.sheets.dashboard.components;
 
+import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
+import static tech.grasshopper.excel.report.cell.CellOperations.printString;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_NAME_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_PASSED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_SKIPPED_CELL;
 
-import static tech.grasshopper.excel.report.cell.CellOperations.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.util.TriConsumer;
 import org.apache.poi.ss.util.CellReference;
 
 import lombok.experimental.SuperBuilder;
@@ -21,6 +20,7 @@ import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
+import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 
