@@ -3,6 +3,7 @@ package tech.grasshopper.excel.report.sheets.dashboard.components;
 import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
 import static tech.grasshopper.excel.report.cell.CellOperations.printString;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAGS_FAIL_SKIP_SCENARIO_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_NAME_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_SCENARIO_PASSED_CELL;
@@ -26,8 +27,6 @@ import tech.grasshopper.extent.data.SheetData.TagCountData;
 
 @SuperBuilder
 public class TagFailSkipDBComponent extends DBComponent {
-
-	private int tagBarChartIndex;
 
 	private String failSkipTableStartCell;
 
@@ -82,13 +81,13 @@ public class TagFailSkipDBComponent extends DBComponent {
 		valueRanges.add(convertCellReferenceToChartDataRange(TAG_TABLE_SCENARIO_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(TAG_TABLE_SCENARIO_FAILED_CELL, rows));
 
-		dbChartOperations.updateBarChartPlot(tagBarChartIndex, categoryRange, valueRanges);
+		dbChartOperations.updateBarChartPlot(TAGS_FAIL_SKIP_SCENARIO_CHART, categoryRange, valueRanges);
 	}
 
 	private void updateDBScenarioFeatureFailSkipTagTableData() {
 
 		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
 				.sheet(dbSheet).startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 })
-				.groupRows(true).build().writeTableValues();
+				/* .groupRows(true) */.build().writeTableValues();
 	}
 }
