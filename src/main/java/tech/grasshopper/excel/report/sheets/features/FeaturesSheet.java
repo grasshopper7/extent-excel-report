@@ -26,10 +26,10 @@ import tech.grasshopper.extent.data.SheetData.FeatureData;
 @SuperBuilder
 public class FeaturesSheet extends Sheet {
 
-	private static final String FEATURES_TABLE_NAME_CELL = "B21";
-	private static final String FEATURES_TABLE_SCENARIO_PASSED_CELL = "F21";
-	private static final String FEATURES_TABLE_SCENARIO_FAILED_CELL = "G21";
-	private static final String FEATURES_TABLE_SCENARIO_SKIPPED_CELL = "H21";
+	private static final String FEATURES_TABLE_NAME_CELL = "B22";
+	private static final String FEATURES_TABLE_SCENARIO_PASSED_CELL = "F22";
+	private static final String FEATURES_TABLE_SCENARIO_FAILED_CELL = "G22";
+	private static final String FEATURES_TABLE_SCENARIO_SKIPPED_CELL = "H22";
 	private static final String FEATURES_CHART = "Features";
 
 	@Override
@@ -65,6 +65,7 @@ public class FeaturesSheet extends Sheet {
 			row.add(String.valueOf(scenarioCounts.getPassed()));
 			row.add(String.valueOf(scenarioCounts.getFailed()));
 			row.add(String.valueOf(scenarioCounts.getSkipped()));
+			row.add(scenarioCounts.getPassPercent());
 			row.add(String.valueOf(stepCounts.getTotal()));
 			row.add(String.valueOf(stepCounts.getPassed()));
 			row.add(String.valueOf(stepCounts.getFailed()));
@@ -82,6 +83,7 @@ public class FeaturesSheet extends Sheet {
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
+		printFunctions.add(printBoldString);
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);

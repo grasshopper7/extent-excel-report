@@ -26,12 +26,12 @@ import tech.grasshopper.extent.data.SheetData.TagCountData;
 @SuperBuilder
 public class TagsSheet extends Sheet {
 
-	private static final String TAGS_COUNT_TABLE_NAME_CELL = "B21";
-	private static final String TAGS_COUNT_TABLE_SCENARIO_PASSED_CELL = "D21";
-	private static final String TAGS_COUNT_TABLE_SCENARIO_FAILED_CELL = "E21";
-	private static final String TAGS_COUNT_TABLE_SCENARIO_SKIPPED_CELL = "F21";
+	private static final String TAGS_COUNT_TABLE_NAME_CELL = "B22";
+	private static final String TAGS_COUNT_TABLE_SCENARIO_PASSED_CELL = "D22";
+	private static final String TAGS_COUNT_TABLE_SCENARIO_FAILED_CELL = "E22";
+	private static final String TAGS_COUNT_TABLE_SCENARIO_SKIPPED_CELL = "F22";
 
-	private static final String TAGS_TABLE_NAME_CELL = "B25";
+	private static final String TAGS_TABLE_NAME_CELL = "B26";
 	private static final String TAGS_CHART = "Tags";
 
 	@Override
@@ -79,6 +79,7 @@ public class TagsSheet extends Sheet {
 			row.add(String.valueOf(counts.getPassed()));
 			row.add(String.valueOf(counts.getFailed()));
 			row.add(String.valueOf(counts.getSkipped()));
+			row.add(counts.getPassPercent());
 
 			return row;
 		};
@@ -90,6 +91,7 @@ public class TagsSheet extends Sheet {
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
 		printFunctions.add(printLong);
+		printFunctions.add(printBoldString);
 
 		scenarioTableOperations.writeTableValues(TAGS_COUNT_TABLE_NAME_CELL, reportData.getTagData(),
 				rowValueTransformer, printFunctions);
@@ -114,7 +116,7 @@ public class TagsSheet extends Sheet {
 	private void updateTagsFeatureScenarioTableData(CellReference cellRef) {
 
 		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFeatureAndScenarioTagData())
-				.sheet(sheet).startCell(cellRef.formatAsString()).columnCellCount(new int[] { 1, 3, 2, 1 }).build()
+				.sheet(sheet).startCell(cellRef.formatAsString()).columnCellCount(new int[] { 1, 5, 1, 1 }).build()
 				.writeTableValues();
 	}
 }

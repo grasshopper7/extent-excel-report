@@ -3,6 +3,7 @@ package tech.grasshopper.excel.report.cell;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -24,6 +25,31 @@ public class CellOperations {
 	public static final TriConsumer<CellOperations, CellReference, String> printBoldString = CellOperations::writeBoldStringValue;
 	public static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
 	public static final TriConsumer<CellOperations, CellReference, String> printStatus = CellOperations::writeStatus;
+
+	/*
+	 * public void writeStringValue(String cellName, String cellValue,
+	 * CellValueOptions options) {
+	 * 
+	 * CellReference cellRef = new CellReference(cellName); Cell cell =
+	 * fetchOrCreateCell(cellRef);
+	 * 
+	 * CellStyle style = cell.getCellStyle(); XSSFFont font =
+	 * sheet.getWorkbook().createFont();
+	 * 
+	 * if (options.isBold()) font.setBold(true);
+	 * 
+	 * if (options.isItalic()) font.setItalic(true);
+	 * 
+	 * if (options.getTextColor() != null) font.setColor(new
+	 * XSSFColor(options.getTextColor(), null));
+	 * 
+	 * if (options.getStatus() != null) font.setColor(new
+	 * XSSFColor(Status.getStatusColor(options.getStatus()), null));
+	 * 
+	 * style.setFont(font);
+	 * 
+	 * cell.setCellValue(cellValue); }
+	 */
 
 	public void writeStringValue(String cellName, String cellValue) {
 
@@ -99,6 +125,9 @@ public class CellOperations {
 	public void writePositiveNumericValue(CellReference cellRef, Long cellValue) {
 
 		Cell cell = fetchOrCreateCell(cellRef);
+
+		CellStyle style = cell.getCellStyle();
+		style.setAlignment(HorizontalAlignment.CENTER);
 
 		if (cellValue > 0)
 			cell.setCellValue(cellValue);
