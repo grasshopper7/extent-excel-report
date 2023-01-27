@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.util.RandomStringGenerator;
 import tech.grasshopper.extent.data.ReportData;
 
 @Data
@@ -31,5 +32,11 @@ public abstract class Sheet {
 
 	public void deleteSheet(String sheet) {
 		workbook.removeSheetAt(workbook.getSheetIndex(sheet));
+	}
+
+	public void lockSheet() {
+		sheet.enableLocking();
+
+		sheet.protectSheet(RandomStringGenerator.generate());
 	}
 }
