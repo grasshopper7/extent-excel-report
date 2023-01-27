@@ -20,7 +20,7 @@ public abstract class Sheet {
 	protected static final String EXCEPTIONS_SHEET = "Exceptions";
 	protected static final String EXECUTION_SHEET = "Execution";
 
-	protected static final int FREEZE_PANE_ROW = 20;
+	protected static final int FREEZE_PANE_ROW = 21;
 
 	protected ReportData reportData;
 
