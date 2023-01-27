@@ -9,11 +9,11 @@ import org.apache.poi.xddf.usermodel.chart.XDDFDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
 import org.apache.poi.xssf.usermodel.XSSFChart;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
 import lombok.Data;
+import tech.grasshopper.excel.report.exception.ExcelReportException;
 
 @Builder
 public class ChartOperations {
@@ -22,11 +22,10 @@ public class ChartOperations {
 
 	private XSSFSheet dataSheet;
 
-	public void updateBarChartPlot(int chartIndex, ChartDataSeriesRange categoryRange,
+	public void updateBarChartPlot(String chartTitle, ChartDataSeriesRange categoryRange,
 			List<ChartDataSeriesRange> valueRanges) {
 
-		XSSFDrawing drawing = chartSheet.getDrawingPatriarch();
-		XSSFChart chart = drawing.getCharts().get(chartIndex);
+		XSSFChart chart = retrieveChartFromSheetByTitle(chartTitle);
 
 		List<XDDFChartData> data = chart.getChartSeries();
 
@@ -41,6 +40,13 @@ public class ChartOperations {
 		}
 
 		chart.plot(data.get(0));
+	}
+
+	private XSSFChart retrieveChartFromSheetByTitle(String chartTitle) {
+
+		return chartSheet.getDrawingPatriarch().getCharts().stream()
+				.filter(c -> c.getTitleText().getString().trim().equals(chartTitle)).findFirst().orElseThrow(
+						() -> new ExcelReportException("Chart with title '" + chartTitle + "' not present in sheet."));
 	}
 
 	@Builder

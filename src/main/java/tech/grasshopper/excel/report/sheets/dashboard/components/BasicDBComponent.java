@@ -5,15 +5,18 @@ import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.DURA
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.END_DATE_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_PASSED_CELL;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_PASS_PERCENT_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_SKIPPED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_TOTAL_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_PASSED_CELL;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_PASS_PERCENT_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_SKIPPED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_TOTAL_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.START_DATE_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.STEPS_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.STEPS_PASSED_CELL;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.STEPS_PASS_PERCENT_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.STEPS_SKIPPED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.STEPS_TOTAL_CELL;
 
@@ -74,6 +77,7 @@ public class BasicDBComponent extends DBComponent {
 		dbDataCellOperations.writePositiveNumericValue(FEATURES_FAILED_CELL, featureCounts.getFailed());
 		dbDataCellOperations.writePositiveNumericValue(FEATURES_SKIPPED_CELL, featureCounts.getSkipped());
 		dbDataCellOperations.writePositiveNumericValue(FEATURES_TOTAL_CELL, featureCounts.getTotal());
+		dbDataCellOperations.writeStringValue(FEATURES_PASS_PERCENT_CELL, featureCounts.getPassPercent());
 	}
 
 	private void updateScenarioCounts() {
@@ -83,7 +87,7 @@ public class BasicDBComponent extends DBComponent {
 		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_FAILED_CELL, scenarioCounts.getFailed());
 		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_SKIPPED_CELL, scenarioCounts.getSkipped());
 		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_TOTAL_CELL, scenarioCounts.getTotal());
-
+		dbDataCellOperations.writeStringValue(SCENARIOS_PASS_PERCENT_CELL, scenarioCounts.getPassPercent());
 	}
 
 	private void updateStepCounts() {
@@ -93,5 +97,6 @@ public class BasicDBComponent extends DBComponent {
 		dbDataCellOperations.writePositiveNumericValue(STEPS_FAILED_CELL, stepCounts.getFailed());
 		dbDataCellOperations.writePositiveNumericValue(STEPS_SKIPPED_CELL, stepCounts.getSkipped());
 		dbDataCellOperations.writePositiveNumericValue(STEPS_TOTAL_CELL, stepCounts.getTotal());
+		dbDataCellOperations.writeStringValue(STEPS_PASS_PERCENT_CELL, stepCounts.getPassPercent());
 	}
 }

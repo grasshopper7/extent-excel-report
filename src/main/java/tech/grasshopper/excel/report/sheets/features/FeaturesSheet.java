@@ -30,6 +30,7 @@ public class FeaturesSheet extends Sheet {
 	private static final String FEATURES_TABLE_SCENARIO_PASSED_CELL = "F21";
 	private static final String FEATURES_TABLE_SCENARIO_FAILED_CELL = "G21";
 	private static final String FEATURES_TABLE_SCENARIO_SKIPPED_CELL = "H21";
+	private static final String FEATURES_CHART = "Features";
 
 	@Override
 	public void updateSheet() {
@@ -103,6 +104,6 @@ public class FeaturesSheet extends Sheet {
 		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_SCENARIO_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(FEATURES_TABLE_SCENARIO_FAILED_CELL, rows));
 
-		chartOperations.updateBarChartPlot(0, categoryRange, valueRanges);
+		chartOperations.updateBarChartPlot(FEATURES_CHART, categoryRange, valueRanges);
 	}
 }

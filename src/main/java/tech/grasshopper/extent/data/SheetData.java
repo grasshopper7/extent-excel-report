@@ -48,6 +48,12 @@ public class SheetData {
 		private Long failed = 0L;
 		@Default
 		private Long skipped = 0L;
+
+		public String getPassPercent() {
+			if (total == 0L || passed == 0L)
+				return 0 + "%";
+			return (Math.round((100.0 * passed) / total)) + "%";
+		}
 	}
 
 	@Data

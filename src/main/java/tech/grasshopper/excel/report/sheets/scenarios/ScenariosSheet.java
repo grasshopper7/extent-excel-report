@@ -30,6 +30,7 @@ public class ScenariosSheet extends Sheet {
 	private static final String SCENARIOS_TABLE_STEP_PASSED_CELL = "H21";
 	private static final String SCENARIOS_TABLE_STEP_FAILED_CELL = "I21";
 	private static final String SCENARIOS_TABLE_STEP_SKIPPED_CELL = "J21";
+	private static final String SCENARIOS_CHART = "Scenarios";
 
 	@Override
 	public void updateSheet() {
@@ -98,6 +99,6 @@ public class ScenariosSheet extends Sheet {
 		valueRanges.add(convertCellReferenceToChartDataRange(SCENARIOS_TABLE_STEP_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(SCENARIOS_TABLE_STEP_FAILED_CELL, rows));
 
-		chartOperations.updateBarChartPlot(0, categoryRange, valueRanges);
+		chartOperations.updateBarChartPlot(SCENARIOS_CHART, categoryRange, valueRanges);
 	}
 }

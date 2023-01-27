@@ -18,7 +18,8 @@ public class DashboardBasicAndFailSkipSheet extends DashboardSheet {
 				.createComponent();
 
 		FeatureScenarioFailSkipDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData)
-				.featureBarChartIndex(3).scenarioBarChartIndex(4)
 				.failSkipTableStartCell(FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL).build().createComponent();
+
+		lockSheet();
 	}
 }

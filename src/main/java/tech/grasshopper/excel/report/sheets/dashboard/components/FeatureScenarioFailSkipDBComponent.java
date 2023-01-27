@@ -3,10 +3,12 @@ package tech.grasshopper.excel.report.sheets.dashboard.components;
 import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
 import static tech.grasshopper.excel.report.cell.CellOperations.printString;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_FAIL_SKIP_SCENARIO_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_NAME_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_SCENARIO_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_SCENARIO_PASSED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_SCENARIO_SKIPPED_CELL;
+import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIOS_FAIL_SKIP_STEP_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_NAME_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL;
@@ -33,10 +35,6 @@ import tech.grasshopper.extent.data.pojo.Status;
 
 @SuperBuilder
 public class FeatureScenarioFailSkipDBComponent extends DBComponent {
-
-	private int featureBarChartIndex;
-
-	private int scenarioBarChartIndex;
 
 	private String failSkipTableStartCell;
 
@@ -105,7 +103,7 @@ public class FeatureScenarioFailSkipDBComponent extends DBComponent {
 		valueRanges.add(convertCellReferenceToChartDataRange(FEATURE_FAIL_SKIP_TABLE_SCENARIO_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(FEATURE_FAIL_SKIP_TABLE_SCENARIO_FAILED_CELL, rows));
 
-		dbChartOperations.updateBarChartPlot(featureBarChartIndex, categoryRange, valueRanges);
+		dbChartOperations.updateBarChartPlot(FEATURES_FAIL_SKIP_SCENARIO_CHART, categoryRange, valueRanges);
 	}
 
 	private void updateScenarioFailSkipTableData(List<ScenarioData> failSkipScenarios) {
@@ -153,7 +151,7 @@ public class FeatureScenarioFailSkipDBComponent extends DBComponent {
 		valueRanges.add(convertCellReferenceToChartDataRange(SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL, rows));
 
-		dbChartOperations.updateBarChartPlot(scenarioBarChartIndex, categoryRange, valueRanges);
+		dbChartOperations.updateBarChartPlot(SCENARIOS_FAIL_SKIP_STEP_CHART, categoryRange, valueRanges);
 	}
 
 	private void updateDBScenarioFeatureFailSkipTableData() {

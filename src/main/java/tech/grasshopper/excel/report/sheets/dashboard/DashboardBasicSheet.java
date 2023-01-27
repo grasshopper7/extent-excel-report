@@ -13,5 +13,7 @@ public class DashboardBasicSheet extends DashboardSheet {
 
 		BasicDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData).build()
 				.createComponent();
+
+		lockSheet();
 	}
 }

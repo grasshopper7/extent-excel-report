@@ -18,14 +18,17 @@ public abstract class DashboardSheet extends Sheet {
 	public static final String FEATURES_FAILED_CELL = "D3";
 	public static final String FEATURES_SKIPPED_CELL = "D4";
 	public static final String FEATURES_TOTAL_CELL = "D5";
+	public static final String FEATURES_PASS_PERCENT_CELL = "D6";
 	public static final String SCENARIOS_PASSED_CELL = "F2";
 	public static final String SCENARIOS_FAILED_CELL = "F3";
 	public static final String SCENARIOS_SKIPPED_CELL = "F4";
 	public static final String SCENARIOS_TOTAL_CELL = "F5";
+	public static final String SCENARIOS_PASS_PERCENT_CELL = "F6";
 	public static final String STEPS_PASSED_CELL = "H2";
 	public static final String STEPS_FAILED_CELL = "H3";
 	public static final String STEPS_SKIPPED_CELL = "H4";
 	public static final String STEPS_TOTAL_CELL = "H5";
+	public static final String STEPS_PASS_PERCENT_CELL = "H6";
 
 	public static final String TAG_TABLE_NAME_CELL = "A20";
 	public static final String TAG_TABLE_SCENARIO_PASSED_CELL = "B20";
@@ -43,6 +46,13 @@ public abstract class DashboardSheet extends Sheet {
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_PASSED_CELL = "R20";
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_FAILED_CELL = "S20";
 	public static final String SCENARIO_FAIL_SKIP_TABLE_STEP_SKIPPED_CELL = "T20";
+
+	public static final String FEATURES_CHART = "Features";
+	public static final String SCENARIOS_CHART = "Scenarios";
+	public static final String STEPS_CHART = "Steps";
+	public static final String TAGS_FAIL_SKIP_SCENARIO_CHART = "Tags with Failed & Skipped Scenarios";
+	public static final String FEATURES_FAIL_SKIP_SCENARIO_CHART = "Features with Failed & Skipped Scenarios";
+	public static final String SCENARIOS_FAIL_SKIP_STEP_CHART = "Scenarios with Failed & Skipped Steps";
 
 	protected XSSFSheet dbDataSheet;
 

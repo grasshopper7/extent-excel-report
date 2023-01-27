@@ -31,14 +31,15 @@ public class DashboardAllSheet extends DashboardSheet {
 		moveDownFeatureScenarioFailSkipDBComponent(sheet, tagRowCount);
 
 		TagFailSkipDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData)
-				.tagBarChartIndex(3).failSkipTableStartCell(TAG_FAIL_SKIP_TABLE_CELL).build().createComponent();
+				.failSkipTableStartCell(TAG_FAIL_SKIP_TABLE_CELL).build().createComponent();
 
 		CellReference origCellRef = new CellReference(FEATURE_SCENARIO_FAIL_SKIP_TABLE_CELL);
 		CellReference cellRef = new CellReference(origCellRef.getRow() + tagRowCount, origCellRef.getCol());
 
 		FeatureScenarioFailSkipDBComponent.builder().dbSheet(sheet).dbDataSheet(dbDataSheet).reportData(reportData)
-				.featureBarChartIndex(4).scenarioBarChartIndex(5).failSkipTableStartCell(cellRef.formatAsString())
-				.build().createComponent();
+				.failSkipTableStartCell(cellRef.formatAsString()).build().createComponent();
+
+		lockSheet();
 	}
 
 	private void moveDownFeatureScenarioFailSkipDBComponent(XSSFSheet sheet, int tagRowCount) {

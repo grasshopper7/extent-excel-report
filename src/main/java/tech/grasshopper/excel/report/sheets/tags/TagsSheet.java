@@ -32,6 +32,7 @@ public class TagsSheet extends Sheet {
 	private static final String TAGS_COUNT_TABLE_SCENARIO_SKIPPED_CELL = "F21";
 
 	private static final String TAGS_TABLE_NAME_CELL = "B25";
+	private static final String TAGS_CHART = "Tags";
 
 	@Override
 	public void updateSheet() {
@@ -107,7 +108,7 @@ public class TagsSheet extends Sheet {
 		valueRanges.add(convertCellReferenceToChartDataRange(TAGS_COUNT_TABLE_SCENARIO_SKIPPED_CELL, rows));
 		valueRanges.add(convertCellReferenceToChartDataRange(TAGS_COUNT_TABLE_SCENARIO_FAILED_CELL, rows));
 
-		chartOperations.updateBarChartPlot(0, categoryRange, valueRanges);
+		chartOperations.updateBarChartPlot(TAGS_CHART, categoryRange, valueRanges);
 	}
 
 	private void updateTagsFeatureScenarioTableData(CellReference cellRef) {
