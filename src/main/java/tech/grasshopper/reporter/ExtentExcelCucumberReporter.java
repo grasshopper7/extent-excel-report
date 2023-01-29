@@ -1,6 +1,7 @@
 package tech.grasshopper.reporter;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,17 +60,21 @@ public class ExtentExcelCucumberReporter extends AbstractFileReporter implements
 	}
 
 	private void flush(ReportEntity value) {
+		final String reportXls = getFileNameAsExt(FILE_NAME, new String[] { ".xlsx" });
 		try {
 			report = value.getReport();
-			final String reportXls = getFileNameAsExt(FILE_NAME, new String[] { ".xlsx" });
 
 			ReportData reportData = new ReportData();
 			reportData.createData(report);
 
 			ReportWorkbook.createReport(reportData, reportXls);
-
 		} catch (Exception e) {
 			disposable.dispose();
+
+			File reportFile = Paths.get(reportXls).toFile();
+			if (reportFile.exists())
+				reportFile.delete();
+
 			logger.log(Level.SEVERE, "An exception occurred", e);
 		}
 	}
