@@ -1,5 +1,7 @@
 package tech.grasshopper.excel.report.table;
 
+import static tech.grasshopper.excel.report.cell.CellValueOptions.getStatusColorCellValueOption;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,8 +44,8 @@ public class ExceptionsTable {
 			int currentCol = startCol;
 
 			cellOperations.mergeRows(currentRow, (int) feature.getTotalSteps(), currentCol, columnCellCount[0]);
-			cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), feature.getName(),
-					feature.getStatus());
+			cellOperations.writeValue(new CellReference(currentRow, currentCol), feature.getName(),
+					getStatusColorCellValueOption(feature.getStatus()));
 
 			// Move to scenario name column
 			currentCol = currentCol + columnCellCount[0];
@@ -51,8 +53,8 @@ public class ExceptionsTable {
 			for (Scenario scenario : feature.getScenarios()) {
 
 				cellOperations.mergeRows(currentRow, (int) scenario.getTotalSteps(), currentCol, columnCellCount[1]);
-				cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
-						scenario.getName(), scenario.getStatus());
+				cellOperations.writeValue(new CellReference(currentRow, currentCol), scenario.getName(),
+						getStatusColorCellValueOption(scenario.getStatus()));
 
 				// Move to step\hook name column
 				currentCol = currentCol + columnCellCount[1];
@@ -60,15 +62,15 @@ public class ExceptionsTable {
 				for (Executable executable : scenario.getStackTraceExecutables()) {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
-					cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
-							executable.getName(), executable.getStatus());
+					cellOperations.writeValue(new CellReference(currentRow, currentCol), executable.getName(),
+							getStatusColorCellValueOption(executable.getStatus()));
 
 					// Move to stacktrace column
 					currentCol = currentCol + columnCellCount[2];
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
-					cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
-							executable.getErrorMessage(), executable.getStatus());
+					cellOperations.writeValue(new CellReference(currentRow, currentCol), executable.getErrorMessage(),
+							getStatusColorCellValueOption(executable.getStatus()));
 
 					// Move BACK to step\hook name column
 					currentCol = currentCol - columnCellCount[2];

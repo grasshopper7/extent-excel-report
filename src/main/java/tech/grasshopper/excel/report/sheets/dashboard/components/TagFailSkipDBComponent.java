@@ -1,7 +1,7 @@
 package tech.grasshopper.excel.report.sheets.dashboard.components;
 
-import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
-import static tech.grasshopper.excel.report.cell.CellOperations.printString;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.EMPTY_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAGS_FAIL_SKIP_SCENARIO_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_NAME_CELL;
@@ -13,15 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.poi.ss.util.CellReference;
-
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellOperations;
+import tech.grasshopper.excel.report.cell.CellValueOptions;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
-import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 
@@ -56,15 +53,15 @@ public class TagFailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+		List<CellValueOptions> cellOptions = new ArrayList<>();
 
-		printFunctions.add(printString);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
+		cellOptions.add(EMPTY_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
 
-		dbDataTableOperations.writeTableValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagCountData(),
-				rowValueTransformer, printFunctions);
+		dbDataTableOperations.writeTableCellValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagCountData(),
+				rowValueTransformer, cellOptions);
 	}
 
 	private void refreshTagChartPlot() {

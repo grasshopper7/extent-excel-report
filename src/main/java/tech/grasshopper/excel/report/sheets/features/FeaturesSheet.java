@@ -1,25 +1,26 @@
 package tech.grasshopper.excel.report.sheets.features;
 
-import static tech.grasshopper.excel.report.cell.CellOperations.printBoldString;
-import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
-import static tech.grasshopper.excel.report.cell.CellOperations.printStatus;
-import static tech.grasshopper.excel.report.cell.CellOperations.printString;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.ITALIC_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.STATUS_BOLD_CELL_OPTIONS;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import org.apache.poi.ss.util.CellReference;
-
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellOperations;
+import tech.grasshopper.excel.report.cell.CellValueOptions;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.sheets.Sheet;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.util.DateUtil;
-import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 
@@ -50,7 +51,7 @@ public class FeaturesSheet extends Sheet {
 
 	private void updateFeaturesTableData() {
 
-		SimpleTableOperations<FeatureData> scenarioTableOperations = SimpleTableOperations.<FeatureData>builder()
+		SimpleTableOperations<FeatureData> featureTableOperations = SimpleTableOperations.<FeatureData>builder()
 				.sheet(sheet).build();
 
 		Function<FeatureData, List<String>> rowValueTransformer = (FeatureData f) -> {
@@ -74,23 +75,23 @@ public class FeaturesSheet extends Sheet {
 			return row;
 		};
 
-		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+		List<CellValueOptions> cellOptions = new ArrayList<>();
 
-		printFunctions.add(printBoldString);
-		printFunctions.add(printStatus);
-		printFunctions.add(printString);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printBoldString);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
+		cellOptions.add(BOLD_CELL_OPTIONS);
+		cellOptions.add(STATUS_BOLD_CELL_OPTIONS);
+		cellOptions.add(ITALIC_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(BOLD_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
 
-		scenarioTableOperations.writeTableValues(FEATURES_TABLE_NAME_CELL, reportData.getFeatureData(),
-				rowValueTransformer, printFunctions);
+		featureTableOperations.writeTableCellValues(FEATURES_TABLE_NAME_CELL, reportData.getFeatureData(),
+				rowValueTransformer, cellOptions);
 	}
 
 	private void refreshFeaturesChartPlot() {

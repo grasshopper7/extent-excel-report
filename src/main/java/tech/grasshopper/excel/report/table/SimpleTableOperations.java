@@ -8,25 +8,25 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
 import tech.grasshopper.excel.report.cell.CellOperations;
-import tech.grasshopper.excel.report.util.TriConsumer;
+import tech.grasshopper.excel.report.cell.CellValueOptions;
 
 @Builder
 public class SimpleTableOperations<T> {
 
 	private XSSFSheet sheet;
 
-	public void writeTableValues(String startCell, List<T> tableData, Function<T, List<String>> rowValueTransformer,
-			List<TriConsumer<CellOperations, CellReference, String>> printFunctions) {
+	public void writeTableCellValues(String startCell, List<T> tableData, Function<T, List<String>> rowValueTransformer,
+			List<CellValueOptions> valueOptions) {
 
 		CellReference cellRef = new CellReference(startCell);
 		int startRow = cellRef.getRow();
 		int endRow = startRow + tableData.size();
 		int startColumn = cellRef.getCol();
-		int endColumn = startColumn + printFunctions.size();
+		int endColumn = startColumn + valueOptions.size();
 
-		CellOperations dbDataCellOperations = CellOperations.builder().sheet(sheet).build();
+		CellOperations cellOperations = CellOperations.builder().sheet(sheet).build();
 
-		dbDataCellOperations.createCellsWithStyleInRange(startRow, endRow, startColumn, endColumn);
+		cellOperations.createCellsWithStyleInRange(startRow, endRow, startColumn, endColumn);
 
 		for (int i = startRow; i < endRow; i++) {
 
@@ -34,7 +34,8 @@ public class SimpleTableOperations<T> {
 			int startCol = cellRef.getCol();
 
 			for (int j = 0; j < rowValue.size(); j++) {
-				printFunctions.get(j).accept(dbDataCellOperations, new CellReference(i, startCol), rowValue.get(j));
+
+				cellOperations.writeValue(new CellReference(i, startCol), rowValue.get(j), valueOptions.get(j));
 				startCol++;
 			}
 		}

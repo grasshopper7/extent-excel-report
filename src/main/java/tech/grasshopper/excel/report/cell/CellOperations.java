@@ -3,7 +3,6 @@ package tech.grasshopper.excel.report.cell;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -13,7 +12,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
-import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.pojo.Status;
 
 @Builder
@@ -21,130 +19,67 @@ public class CellOperations {
 
 	private XSSFSheet sheet;
 
-	public static final TriConsumer<CellOperations, CellReference, String> printString = CellOperations::writeStringValue;
-	public static final TriConsumer<CellOperations, CellReference, String> printBoldString = CellOperations::writeBoldStringValue;
-	public static final TriConsumer<CellOperations, CellReference, String> printLong = CellOperations::writePositiveNumericValue;
-	public static final TriConsumer<CellOperations, CellReference, String> printStatus = CellOperations::writeStatus;
+	public void writePlainValue(String cellName, String cellValue) {
 
-	/*
-	 * public void writeStringValue(String cellName, String cellValue,
-	 * CellValueOptions options) {
-	 * 
-	 * CellReference cellRef = new CellReference(cellName); Cell cell =
-	 * fetchOrCreateCell(cellRef);
-	 * 
-	 * CellStyle style = cell.getCellStyle(); XSSFFont font =
-	 * sheet.getWorkbook().createFont();
-	 * 
-	 * if (options.isBold()) font.setBold(true);
-	 * 
-	 * if (options.isItalic()) font.setItalic(true);
-	 * 
-	 * if (options.getTextColor() != null) font.setColor(new
-	 * XSSFColor(options.getTextColor(), null));
-	 * 
-	 * if (options.getStatus() != null) font.setColor(new
-	 * XSSFColor(Status.getStatusColor(options.getStatus()), null));
-	 * 
-	 * style.setFont(font);
-	 * 
-	 * cell.setCellValue(cellValue); }
-	 */
-
-	public void writeStringValue(String cellName, String cellValue) {
-
-		CellReference cellRef = new CellReference(cellName);
-		writeStringValue(cellRef, cellValue);
-	}
-
-	public void writeStringValue(CellReference cellRef, String cellValue) {
-
-		Cell cell = fetchOrCreateCell(cellRef);
+		CellReference cellReference = new CellReference(cellName);
+		Cell cell = fetchOrCreateCell(cellReference);
 		cell.setCellValue(cellValue);
 	}
 
-	public void writeBoldStringValue(CellReference cellRef, String cellValue) {
+	public void writePlainPositiveNumberValue(String cellName, Long cellValue) {
 
-		Cell cell = fetchOrCreateCell(cellRef);
-
-		CellStyle style = cell.getCellStyle();
-		XSSFFont font = sheet.getWorkbook().createFont();
-		font.setBold(true);
-		style.setFont(font);
-
-		cell.setCellValue(cellValue);
-	}
-
-	public void writeStatus(CellReference cellRef, String status) {
-
-		writeStatus(cellRef, Status.valueOf(status));
-	}
-
-	public void writeStatus(CellReference cellRef, Status status) {
-
-		Cell cell = fetchOrCreateCell(cellRef);
-
-		CellStyle style = cell.getCellStyle();
-		XSSFFont font = sheet.getWorkbook().createFont();
-		font.setColor(new XSSFColor(Status.getStatusColor(status), null));
-		font.setBold(true);
-		style.setFont(font);
-
-		cell.setCellValue(status.toString());
-	}
-
-	public void writeStringValueWithStatusColor(CellReference cellRef, String cellValue, Status status) {
-
-		Cell cell = fetchOrCreateCell(cellRef);
-
-		CellStyle style = cell.getCellStyle();
-		XSSFFont font = sheet.getWorkbook().createFont();
-		font.setColor(new XSSFColor(Status.getStatusColor(status), null));
-		style.setFont(font);
-
-		cell.setCellValue(cellValue);
-	}
-
-	public void writeNumericValue(CellReference cellRef, String cellValue) {
-
-		writeNumericValue(cellRef, Long.parseLong(cellValue));
-	}
-
-	public void writePositiveNumericValue(CellReference cellRef, String cellValue) {
-
-		Long value = Long.parseLong(cellValue);
-		writePositiveNumericValue(cellRef, value);
-	}
-
-	public void writePositiveNumericValue(String cellName, Long cellValue) {
-
-		CellReference cellRef = new CellReference(cellName);
-		writePositiveNumericValue(cellRef, cellValue);
-	}
-
-	public void writePositiveNumericValue(CellReference cellRef, Long cellValue) {
-
-		Cell cell = fetchOrCreateCell(cellRef);
-
-		CellStyle style = cell.getCellStyle();
-		style.setAlignment(HorizontalAlignment.CENTER);
-
+		CellReference cellReference = new CellReference(cellName);
+		Cell cell = fetchOrCreateCell(cellReference);
 		if (cellValue > 0)
 			cell.setCellValue(cellValue);
 		else
 			cell.setBlank();
 	}
 
-	public void writeNumericValue(String cellName, Long cellValue) {
+	public void writeValue(String cellName, String cellValue, CellValueOptions options) {
 
-		CellReference cellRef = new CellReference(cellName);
-		writeNumericValue(cellRef, cellValue);
+		CellReference cellReference = new CellReference(cellName);
+		writeValue(cellReference, cellValue, options);
 	}
 
-	public void writeNumericValue(CellReference cellRef, Long cellValue) {
+	public void writeValue(CellReference cellReference, String cellValue, CellValueOptions options) {
 
-		Cell cell = fetchOrCreateCell(cellRef);
-		cell.setCellValue(cellValue);
+		Cell cell = fetchOrCreateCell(cellReference);
+
+		CellStyle style = cell.getCellStyle();
+		XSSFFont font = sheet.getWorkbook().createFont();
+
+		boolean numberPresent = options.isNumber() || options.isPositiveNumber();
+
+		if (options.isBold())
+			font.setBold(true);
+
+		if (options.isItalic())
+			font.setItalic(true);
+
+		if (options.getTextColor() != null)
+			font.setColor(new XSSFColor(options.getTextColor(), null));
+
+		if (options.getHorizAlign() != null)
+			style.setAlignment(options.getHorizAlign());
+
+		if (options.getVertAlign() != null)
+			style.setVerticalAlignment(options.getVertAlign());
+
+		if (options.isStatus())
+			font.setColor(new XSSFColor(Status.getStatusColor(Status.valueOf(cellValue)), null));
+
+		style.setFont(font);
+
+		if (numberPresent) {
+			Long value = Long.parseLong(cellValue);
+
+			if (options.isPositiveNumber() && value < 1)
+				cell.setBlank();
+			else
+				cell.setCellValue(value);
+		} else
+			cell.setCellValue(cellValue);
 	}
 
 	private Cell fetchOrCreateCell(CellReference cellRef) {

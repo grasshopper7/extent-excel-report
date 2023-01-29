@@ -1,5 +1,8 @@
 package tech.grasshopper.excel.report.table;
 
+import static tech.grasshopper.excel.report.cell.CellValueOptions.STATUS_BOLD_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.getStatusColorCellValueOption;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,14 +48,15 @@ public class FeatureScenarioFailSkipTable {
 			int currentCol = startCol;
 
 			cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[0]);
-			cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol), feature.getName(),
-					feature.getStatus());
+			cellOperations.writeValue(new CellReference(currentRow, currentCol), feature.getName(),
+					getStatusColorCellValueOption(feature.getStatus()));
 
 			// Move to feature status column
 			currentCol = currentCol + columnCellCount[0];
 
 			cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
-			cellOperations.writeStatus(new CellReference(currentRow, currentCol), feature.getStatus());
+			cellOperations.writeValue(new CellReference(currentRow, currentCol), feature.getStatus().toString(),
+					STATUS_BOLD_CELL_OPTIONS);
 
 			// Move to scenario name column
 			currentCol = currentCol + columnCellCount[1];
@@ -60,14 +64,15 @@ public class FeatureScenarioFailSkipTable {
 			for (Scenario scenario : feature.getScenarios()) {
 
 				cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
-				cellOperations.writeStringValueWithStatusColor(new CellReference(currentRow, currentCol),
-						scenario.getName(), scenario.getStatus());
+				cellOperations.writeValue(new CellReference(currentRow, currentCol), scenario.getName(),
+						getStatusColorCellValueOption(scenario.getStatus()));
 
 				// Move to scenario status column
 				currentCol = currentCol + columnCellCount[2];
 
 				cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
-				cellOperations.writeStatus(new CellReference(currentRow, currentCol), scenario.getStatus());
+				cellOperations.writeValue(new CellReference(currentRow, currentCol), scenario.getStatus().toString(),
+						STATUS_BOLD_CELL_OPTIONS);
 
 				// Move BACK to scenario name column
 				currentCol = currentCol - columnCellCount[2];

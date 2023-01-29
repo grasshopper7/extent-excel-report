@@ -63,40 +63,40 @@ public class BasicDBComponent extends DBComponent {
 		// dbDataCellOperations.writeValue(TITLE_CELL, null);
 
 		// Not used just added for FUN
-		dbDataCellOperations.writeStringValue(CURRENT_DATE_CELL, DateUtil.formatDateTime(LocalDateTime.now()));
+		dbDataCellOperations.writePlainValue(CURRENT_DATE_CELL, DateUtil.formatDateTime(LocalDateTime.now()));
 
-		dbDataCellOperations.writeStringValue(START_DATE_CELL, DateUtil.formatDateTime(timingData.getStartTime()));
-		dbDataCellOperations.writeStringValue(END_DATE_CELL, DateUtil.formatDateTime(timingData.getEndTime()));
-		dbDataCellOperations.writeStringValue(DURATION_CELL, DateUtil.durationValue(timingData.getDuration()));
+		dbDataCellOperations.writePlainValue(START_DATE_CELL, DateUtil.formatDateTime(timingData.getStartTime()));
+		dbDataCellOperations.writePlainValue(END_DATE_CELL, DateUtil.formatDateTime(timingData.getEndTime()));
+		dbDataCellOperations.writePlainValue(DURATION_CELL, DateUtil.durationValue(timingData.getDuration()));
 	}
 
 	private void updateFeatureCounts() {
 
 		CountData featureCounts = reportData.getDashboardData().getFeatureCounts();
-		dbDataCellOperations.writePositiveNumericValue(FEATURES_PASSED_CELL, featureCounts.getPassed());
-		dbDataCellOperations.writePositiveNumericValue(FEATURES_FAILED_CELL, featureCounts.getFailed());
-		dbDataCellOperations.writePositiveNumericValue(FEATURES_SKIPPED_CELL, featureCounts.getSkipped());
-		dbDataCellOperations.writePositiveNumericValue(FEATURES_TOTAL_CELL, featureCounts.getTotal());
-		dbDataCellOperations.writeStringValue(FEATURES_PASS_PERCENT_CELL, featureCounts.getPassPercent());
+		dbDataCellOperations.writePlainPositiveNumberValue(FEATURES_PASSED_CELL, featureCounts.getPassed());
+		dbDataCellOperations.writePlainPositiveNumberValue(FEATURES_FAILED_CELL, featureCounts.getFailed());
+		dbDataCellOperations.writePlainPositiveNumberValue(FEATURES_SKIPPED_CELL, featureCounts.getSkipped());
+		dbDataCellOperations.writePlainPositiveNumberValue(FEATURES_TOTAL_CELL, featureCounts.getTotal());
+		dbDataCellOperations.writePlainValue(FEATURES_PASS_PERCENT_CELL, featureCounts.getPassPercent());
 	}
 
 	private void updateScenarioCounts() {
 
 		CountData scenarioCounts = reportData.getDashboardData().getScenarioCounts();
-		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_PASSED_CELL, scenarioCounts.getPassed());
-		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_FAILED_CELL, scenarioCounts.getFailed());
-		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_SKIPPED_CELL, scenarioCounts.getSkipped());
-		dbDataCellOperations.writePositiveNumericValue(SCENARIOS_TOTAL_CELL, scenarioCounts.getTotal());
-		dbDataCellOperations.writeStringValue(SCENARIOS_PASS_PERCENT_CELL, scenarioCounts.getPassPercent());
+		dbDataCellOperations.writePlainPositiveNumberValue(SCENARIOS_PASSED_CELL, scenarioCounts.getPassed());
+		dbDataCellOperations.writePlainPositiveNumberValue(SCENARIOS_FAILED_CELL, scenarioCounts.getFailed());
+		dbDataCellOperations.writePlainPositiveNumberValue(SCENARIOS_SKIPPED_CELL, scenarioCounts.getSkipped());
+		dbDataCellOperations.writePlainPositiveNumberValue(SCENARIOS_TOTAL_CELL, scenarioCounts.getTotal());
+		dbDataCellOperations.writePlainValue(SCENARIOS_PASS_PERCENT_CELL, scenarioCounts.getPassPercent());
 	}
 
 	private void updateStepCounts() {
 
 		CountData stepCounts = reportData.getDashboardData().getStepCounts();
-		dbDataCellOperations.writePositiveNumericValue(STEPS_PASSED_CELL, stepCounts.getPassed());
-		dbDataCellOperations.writePositiveNumericValue(STEPS_FAILED_CELL, stepCounts.getFailed());
-		dbDataCellOperations.writePositiveNumericValue(STEPS_SKIPPED_CELL, stepCounts.getSkipped());
-		dbDataCellOperations.writePositiveNumericValue(STEPS_TOTAL_CELL, stepCounts.getTotal());
-		dbDataCellOperations.writeStringValue(STEPS_PASS_PERCENT_CELL, stepCounts.getPassPercent());
+		dbDataCellOperations.writePlainPositiveNumberValue(STEPS_PASSED_CELL, stepCounts.getPassed());
+		dbDataCellOperations.writePlainPositiveNumberValue(STEPS_FAILED_CELL, stepCounts.getFailed());
+		dbDataCellOperations.writePlainPositiveNumberValue(STEPS_SKIPPED_CELL, stepCounts.getSkipped());
+		dbDataCellOperations.writePlainPositiveNumberValue(STEPS_TOTAL_CELL, stepCounts.getTotal());
+		dbDataCellOperations.writePlainValue(STEPS_PASS_PERCENT_CELL, stepCounts.getPassPercent());
 	}
 }

@@ -1,7 +1,11 @@
 package tech.grasshopper.excel.report.sheets.tags;
 
-import static tech.grasshopper.excel.report.cell.CellOperations.printBoldString;
-import static tech.grasshopper.excel.report.cell.CellOperations.printLong;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 
 import java.util.ArrayList;
@@ -12,14 +16,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellOperations;
+import tech.grasshopper.excel.report.cell.CellValueOptions;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.sheets.ComponentShifter;
 import tech.grasshopper.excel.report.sheets.Sheet;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
-import tech.grasshopper.excel.report.util.TriConsumer;
 import tech.grasshopper.extent.data.SheetData.CountData;
 import tech.grasshopper.extent.data.SheetData.TagCountData;
 
@@ -84,17 +87,17 @@ public class TagsSheet extends Sheet {
 			return row;
 		};
 
-		List<TriConsumer<CellOperations, CellReference, String>> printFunctions = new ArrayList<>();
+		List<CellValueOptions> cellOptions = new ArrayList<>();
 
-		printFunctions.add(printBoldString);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printLong);
-		printFunctions.add(printBoldString);
+		cellOptions.add(BOLD_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		cellOptions.add(BOLD_HORIZCENTER_CELL_OPTIONS);
 
-		scenarioTableOperations.writeTableValues(TAGS_COUNT_TABLE_NAME_CELL, reportData.getTagData(),
-				rowValueTransformer, printFunctions);
+		scenarioTableOperations.writeTableCellValues(TAGS_COUNT_TABLE_NAME_CELL, reportData.getTagData(),
+				rowValueTransformer, cellOptions);
 	}
 
 	private void refreshTagsChartPlot() {
