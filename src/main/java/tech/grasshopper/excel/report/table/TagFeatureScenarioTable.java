@@ -57,7 +57,7 @@ public class TagFeatureScenarioTable {
 			long tagMergeRowCount = features.stream().mapToLong(f -> f.getTotalScenarios()).sum();
 
 			cellOperations.mergeRows(currentRow, (int) tagMergeRowCount, currentCol, columnCellCount[0]);
-			cellOperations.writeValue(cellRef, tag, BOLD_CELL_OPTIONS);
+			cellOperations.writeValue(new CellReference(currentRow, currentCol), tag, BOLD_CELL_OPTIONS);
 
 			// Move to feature name column
 			currentCol = currentCol + columnCellCount[0];
