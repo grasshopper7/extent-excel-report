@@ -26,6 +26,8 @@ public class ExceptionsSheet extends Sheet {
 		updateExceptionsTableData(new CellReference(EXCEPTIONS_TABLE_FEATURE_NAME_CELL));
 
 		sheet.createFreezePane(0, FREEZE_PANE_ROW);
+
+		lockSheet();
 	}
 
 	private void updateExceptionsTableData(CellReference cellRef) {
