@@ -1,7 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 1.1.0 (2023-01-20)
+## 1.2.0 (2023-01-30)
+
+* Locked exception sheet
+* White background templates
+
+## 1.1.0 (2023-01-28)
 
 * Big changes :)
 
