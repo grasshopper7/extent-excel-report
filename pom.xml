@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extent-excel-report</artifactId>
-	<version>1.2.0</version>
+	<version>1.3.0</version>
 	<name>extent-excel-report</name>
 	<url>https://ghchirp.online/</url>
 	<description>Excel Extent Reporter for Cucumber</description>
