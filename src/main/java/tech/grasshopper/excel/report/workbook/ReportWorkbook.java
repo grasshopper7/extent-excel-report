@@ -13,10 +13,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import tech.grasshopper.excel.report.sheets.attributes.AuthorsSheet;
+import tech.grasshopper.excel.report.sheets.attributes.DevicesSheet;
+import tech.grasshopper.excel.report.sheets.attributes.TagsSheet;
 import tech.grasshopper.excel.report.sheets.exceptions.ExceptionsSheet;
 import tech.grasshopper.excel.report.sheets.features.FeaturesSheet;
 import tech.grasshopper.excel.report.sheets.scenarios.ScenariosSheet;
-import tech.grasshopper.excel.report.sheets.tags.TagsSheet;
 import tech.grasshopper.extent.data.ReportData;
 
 @Data
@@ -79,6 +81,12 @@ public abstract class ReportWorkbook {
 
 		// Exceptions sheet
 		ExceptionsSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
+
+		// Author sheet
+		AuthorsSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
+
+		// Device sheet
+		DevicesSheet.builder().reportData(reportData).workbook(xssfWorkbook).build().updateSheet();
 
 		// Execution sheet (?)
 	}

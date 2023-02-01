@@ -15,4 +15,8 @@ public abstract class NonExecutable extends BaseEntity {
 
 	@Default
 	protected List<String> tags = new ArrayList<>();
+	@Default
+	private List<String> authors = new ArrayList<>();
+	@Default
+	private List<String> devices = new ArrayList<>();
 }

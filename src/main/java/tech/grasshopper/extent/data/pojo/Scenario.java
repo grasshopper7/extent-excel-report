@@ -22,8 +22,6 @@ public class Scenario extends NonExecutable {
 	private List<Step> steps = new ArrayList<>();
 	@Default
 	private List<Hook> after = new ArrayList<>();
-	@Default
-	private List<String> tags = new ArrayList<>();
 
 	@Default
 	private long passedSteps = 0;

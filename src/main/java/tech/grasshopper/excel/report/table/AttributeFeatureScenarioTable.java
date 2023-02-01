@@ -20,13 +20,13 @@ import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Scenario;
 
 @Builder
-public class TagFeatureScenarioTable {
+public class AttributeFeatureScenarioTable {
 
 	private XSSFSheet sheet;
 
 	private String startCell;
 
-	private Map<String, List<Feature>> featureAndScenarioTagData;
+	private Map<String, List<Feature>> featureAndScenarioAttributeData;
 
 	private int[] columnCellCount;
 
@@ -40,14 +40,14 @@ public class TagFeatureScenarioTable {
 		int startRow = cellRef.getRow();
 		int startCol = cellRef.getCol();
 
-		int rowCount = (int) featureAndScenarioTagData.values().stream().flatMap(Collection::stream)
+		int rowCount = (int) featureAndScenarioAttributeData.values().stream().flatMap(Collection::stream)
 				.mapToLong(f -> f.getTotalScenarios()).sum();
 		cellOperations.createCellsWithStyleInRange(startRow, startRow + rowCount, startCol,
 				startCol + Arrays.stream(columnCellCount).sum());
 
 		int currentRow = startRow;
 
-		for (Entry<String, List<Feature>> entry : featureAndScenarioTagData.entrySet()) {
+		for (Entry<String, List<Feature>> entry : featureAndScenarioAttributeData.entrySet()) {
 			// Reset to tag name column
 			int currentCol = startCol;
 

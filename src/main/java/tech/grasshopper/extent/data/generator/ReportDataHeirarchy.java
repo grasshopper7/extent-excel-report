@@ -3,11 +3,13 @@ package tech.grasshopper.extent.data.generator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.aventstack.extentreports.gherkin.model.Asterisk;
 import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.aventstack.extentreports.model.Log;
+import com.aventstack.extentreports.model.NamedAttribute;
 import com.aventstack.extentreports.model.Report;
 import com.aventstack.extentreports.model.Test;
 
@@ -32,12 +34,14 @@ public class ReportDataHeirarchy {
 
 		for (Test featureTest : report.getTestList()) {
 
-			List<String> featureTags = new ArrayList<>();
-			featureTest.getCategorySet().stream().forEach(c -> featureTags.add(c.getName()));
+			List<String> featureTags = attributesData(featureTest.getCategorySet());
+			List<String> featureAuthors = attributesData(featureTest.getAuthorSet());
+			List<String> featureDevices = attributesData(featureTest.getDeviceSet());
 
 			List<Scenario> scenarios = new ArrayList<>();
 			Feature feature = Feature.builder().name(featureTest.getName())
-					.status(convertStatus(featureTest.getStatus())).tags(featureTags).scenarios(scenarios)
+					.status(convertStatus(featureTest.getStatus())).tags(featureTags).authors(featureAuthors)
+					.devices(featureDevices).scenarios(scenarios)
 					.startTime(DateUtil.convertToLocalDateTimeFromDate(featureTest.getStartTime()))
 					.endTime(DateUtil.convertToLocalDateTimeFromDate(featureTest.getEndTime())).build();
 			features.add(feature);
@@ -61,12 +65,14 @@ public class ReportDataHeirarchy {
 		List<Hook> beforeHook = new ArrayList<>();
 		List<Hook> afterHook = new ArrayList<>();
 
-		List<String> scenarioTags = new ArrayList<>();
-		scenarioTest.getCategorySet().stream().forEach(c -> scenarioTags.add(c.getName()));
+		List<String> scenarioTags = attributesData(scenarioTest.getCategorySet());
+		List<String> scenarioAuthors = attributesData(scenarioTest.getAuthorSet());
+		List<String> scenarioDevices = attributesData(scenarioTest.getDeviceSet());
 
 		Scenario scenario = Scenario.builder().name(scenarioTest.getName())
-				.status(convertStatus(scenarioTest.getStatus())).tags(scenarioTags).steps(steps).before(beforeHook)
-				.after(afterHook).startTime(DateUtil.convertToLocalDateTimeFromDate(scenarioTest.getStartTime()))
+				.status(convertStatus(scenarioTest.getStatus())).tags(scenarioTags).authors(scenarioAuthors)
+				.devices(scenarioDevices).steps(steps).before(beforeHook).after(afterHook)
+				.startTime(DateUtil.convertToLocalDateTimeFromDate(scenarioTest.getStartTime()))
 				.endTime(DateUtil.convertToLocalDateTimeFromDate(scenarioTest.getEndTime())).build();
 		scenarios.add(scenario);
 
@@ -108,6 +114,12 @@ public class ReportDataHeirarchy {
 				loopObject = LoopObject.STEP;
 			}
 		}
+	}
+
+	private List<String> attributesData(Set<? extends NamedAttribute> attrs) {
+		List<String> attributes = new ArrayList<>();
+		attrs.stream().forEach(c -> attributes.add(c.getName()));
+		return attributes;
 	}
 
 	private void addStepData(Step step, Test stepTest) {

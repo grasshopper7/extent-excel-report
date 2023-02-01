@@ -9,10 +9,12 @@ import com.aventstack.extentreports.model.Report;
 
 import lombok.Getter;
 import tech.grasshopper.excel.report.exception.ExcelReportException;
+import tech.grasshopper.extent.data.SheetData.AttributeCountData;
 import tech.grasshopper.extent.data.SheetData.BasicDashboardData;
 import tech.grasshopper.extent.data.SheetData.FeatureData;
 import tech.grasshopper.extent.data.SheetData.ScenarioData;
-import tech.grasshopper.extent.data.SheetData.TagCountData;
+import tech.grasshopper.extent.data.generator.AttributeDataPopulator.AuthorDataPopulator;
+import tech.grasshopper.extent.data.generator.AttributeDataPopulator.DeviceDataPopulator;
 import tech.grasshopper.extent.data.generator.DashboardDataPopulator;
 import tech.grasshopper.extent.data.generator.ExceptionDataPopulator;
 import tech.grasshopper.extent.data.generator.FailSkipDataPopulator;
@@ -31,15 +33,23 @@ public class ReportData {
 
 	private BasicDashboardData dashboardData;
 
-	private List<TagCountData> failSkipTagCountData = new ArrayList<>();
+	private List<AttributeCountData> failSkipTagCountData = new ArrayList<>();
 
 	private Map<String, List<Feature>> failSkipFeatureAndScenarioTagData = new LinkedHashMap<>();
 
 	private List<Feature> failSkipFeatureAndScenarioData = new ArrayList<>();
 
-	private List<TagCountData> tagData = new ArrayList<>();
+	private List<AttributeCountData> tagData = new ArrayList<>();
 
 	private Map<String, List<Feature>> featureAndScenarioTagData = new LinkedHashMap<>();
+
+	private List<AttributeCountData> authorData = new ArrayList<>();
+
+	private Map<String, List<Feature>> featureAndScenarioAuthorData = new LinkedHashMap<>();
+
+	private List<AttributeCountData> deviceData = new ArrayList<>();
+
+	private Map<String, List<Feature>> featureAndScenarioDeviceData = new LinkedHashMap<>();
 
 	private List<FeatureData> featureData = new ArrayList<>();
 
@@ -66,6 +76,14 @@ public class ReportData {
 		populateTagData();
 
 		populateFeatureAndScenarioTagData();
+
+		populateAuthorData();
+
+		populateFeatureAndScenarioAuthorData();
+
+		populateDeviceData();
+
+		populateFeatureAndScenarioDeviceData();
 
 		populateFeatureData();
 
@@ -122,12 +140,35 @@ public class ReportData {
 
 	private void populateTagData() {
 
-		TagDataPopulator.builder().features(features).build().populateTagCountData(tagData);
+		TagDataPopulator.builder().features(features).build().populateAttributeCountData(tagData);
 	}
 
 	private void populateFeatureAndScenarioTagData() {
 
-		TagDataPopulator.builder().features(features).build().populateFeatureScenarioData(featureAndScenarioTagData);
+		TagDataPopulator.builder().features(features).build()
+				.populateAttributeFeatureScenarioData(featureAndScenarioTagData);
+	}
+
+	private void populateAuthorData() {
+
+		AuthorDataPopulator.builder().features(features).build().populateAttributeCountData(authorData);
+	}
+
+	private void populateFeatureAndScenarioAuthorData() {
+
+		AuthorDataPopulator.builder().features(features).build()
+				.populateAttributeFeatureScenarioData(featureAndScenarioAuthorData);
+	}
+
+	private void populateDeviceData() {
+
+		DeviceDataPopulator.builder().features(features).build().populateAttributeCountData(deviceData);
+	}
+
+	private void populateFeatureAndScenarioDeviceData() {
+
+		DeviceDataPopulator.builder().features(features).build()
+				.populateAttributeFeatureScenarioData(featureAndScenarioDeviceData);
 	}
 
 	private void populateFeatureData() {

@@ -18,6 +18,8 @@ public abstract class Sheet {
 	protected static final String TAGS_SHEET = "Tags";
 	protected static final String FEATURES_SHEET = "Features";
 	protected static final String EXCEPTIONS_SHEET = "Exceptions";
+	protected static final String AUTHORS_SHEET = "Authors";
+	protected static final String DEVICES_SHEET = "Devices";
 	protected static final String EXECUTION_SHEET = "Execution";
 
 	protected static final int FREEZE_PANE_ROW = 21;

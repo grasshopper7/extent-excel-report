@@ -18,9 +18,9 @@ import tech.grasshopper.excel.report.cell.CellValueOptions;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.SimpleTableOperations;
-import tech.grasshopper.excel.report.table.TagFeatureScenarioTable;
+import tech.grasshopper.excel.report.table.AttributeFeatureScenarioTable;
 import tech.grasshopper.extent.data.SheetData.CountData;
-import tech.grasshopper.extent.data.SheetData.TagCountData;
+import tech.grasshopper.extent.data.SheetData.AttributeCountData;
 
 @SuperBuilder
 public class TagFailSkipDBComponent extends DBComponent {
@@ -38,10 +38,10 @@ public class TagFailSkipDBComponent extends DBComponent {
 
 	private void updateTagTableData() {
 
-		SimpleTableOperations<TagCountData> dbDataTableOperations = SimpleTableOperations.<TagCountData>builder()
-				.sheet(dbDataSheet).build();
+		SimpleTableOperations<AttributeCountData> dbDataTableOperations = SimpleTableOperations
+				.<AttributeCountData>builder().sheet(dbDataSheet).build();
 
-		Function<TagCountData, List<String>> rowValueTransformer = (TagCountData t) -> {
+		Function<AttributeCountData, List<String>> rowValueTransformer = (AttributeCountData t) -> {
 			List<String> row = new ArrayList<>();
 			CountData counts = t.getScenarioCounts();
 
@@ -83,8 +83,9 @@ public class TagFailSkipDBComponent extends DBComponent {
 
 	private void updateDBScenarioFeatureFailSkipTagTableData() {
 
-		TagFeatureScenarioTable.builder().featureAndScenarioTagData(reportData.getFailSkipFeatureAndScenarioTagData())
-				.sheet(dbSheet).startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 })
+		AttributeFeatureScenarioTable.builder()
+				.featureAndScenarioAttributeData(reportData.getFailSkipFeatureAndScenarioTagData()).sheet(dbSheet)
+				.startCell(failSkipTableStartCell).columnCellCount(new int[] { 1, 3, 1, 1 })
 				/* .groupRows(true) */.build().writeTableValues();
 	}
 }
