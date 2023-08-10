@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>extent-excel-report</artifactId>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<name>extent-excel-report</name>
 	<url>https://ghchirp.online/</url>
 	<description>Excel Extent Reporter for Cucumber</description>
@@ -21,7 +21,7 @@
 			<name>Grass Hopper</name>
 			<email>grass.hopper.moc@gmail.com</email>
 			<organization>Grasshopper</organization>
-			<organizationUrl>http://ghchirp.online/</organizationUrl>
+			<organizationUrl>http://ghchirp.site/</organizationUrl>
 		</developer>
 	</developers>
 
@@ -51,7 +51,8 @@
 		<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>extentreports</artifactId>
-			<version>5.0.9</version>
+			<version>5.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

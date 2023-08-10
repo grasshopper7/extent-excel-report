@@ -1,14 +1,15 @@
 package tech.grasshopper.excel.report.cell;
 
-import org.apache.poi.ss.usermodel.BorderStyle;
+import static tech.grasshopper.excel.report.cell.CellStyles.FAIL_TEXT_BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.PASS_TEXT_BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.SKIP_TEXT_BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.getCellStyle;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
@@ -36,50 +37,40 @@ public class CellOperations {
 			cell.setBlank();
 	}
 
-	public void writeValue(String cellName, String cellValue, CellValueOptions options) {
+	public void writeValue(String cellName, String cellValue, String style, ValueOption option) {
 
 		CellReference cellReference = new CellReference(cellName);
-		writeValue(cellReference, cellValue, options);
+		writeValue(cellReference, cellValue, style, option);
 	}
 
-	public void writeValue(CellReference cellReference, String cellValue, CellValueOptions options) {
-
+	public void writeValue(CellReference cellReference, String cellValue, String style, ValueOption option) {
 		Cell cell = fetchOrCreateCell(cellReference);
+		CellStyle cellStyle = getCellStyle(sheet, style);
 
-		CellStyle style = cell.getCellStyle();
-		XSSFFont font = sheet.getWorkbook().createFont();
-
-		boolean numberPresent = options.isNumber() || options.isPositiveNumber();
-
-		if (options.isBold())
-			font.setBold(true);
-
-		if (options.isItalic())
-			font.setItalic(true);
-
-		if (options.getTextColor() != null)
-			font.setColor(new XSSFColor(options.getTextColor(), null));
-
-		if (options.getHorizAlign() != null)
-			style.setAlignment(options.getHorizAlign());
-
-		if (options.getVertAlign() != null)
-			style.setVerticalAlignment(options.getVertAlign());
-
-		if (options.isStatus())
-			font.setColor(new XSSFColor(Status.getStatusColor(Status.valueOf(cellValue)), null));
-
-		style.setFont(font);
-
-		if (numberPresent) {
+		if (option == ValueOption.POSITIVE_NUMBER) {
 			Long value = Long.parseLong(cellValue);
+			cell.setCellStyle(cellStyle);
 
-			if (options.isPositiveNumber() && value < 1)
+			if (value < 1) {
 				cell.setBlank();
-			else
+			} else {
 				cell.setCellValue(value);
-		} else
-			cell.setCellValue(cellValue);
+			}
+
+			return;
+		} else if (option == ValueOption.STATUS_TEXT) {
+			Status status = Status.valueOf(cellValue);
+
+			if (status == Status.PASSED)
+				cellStyle = getCellStyle(sheet, PASS_TEXT_BOLD_CELL_STYLE);
+			else if (status == Status.FAILED)
+				cellStyle = getCellStyle(sheet, FAIL_TEXT_BOLD_CELL_STYLE);
+			else
+				cellStyle = getCellStyle(sheet, SKIP_TEXT_BOLD_CELL_STYLE);
+		}
+
+		cell.setCellStyle(cellStyle);
+		cell.setCellValue(cellValue);
 	}
 
 	private Cell fetchOrCreateCell(CellReference cellRef) {
@@ -98,22 +89,8 @@ public class CellOperations {
 
 		if (rowsToMerge == 1 && colsToMerge == 1)
 			return;
-
 		sheet.addMergedRegion(
 				new CellRangeAddress(startRow, startRow + rowsToMerge - 1, startColumn, startColumn + colsToMerge - 1));
-	}
-
-	public CellStyle createCellStyle() {
-
-		CellStyle style = sheet.getWorkbook().createCellStyle();
-		style.setVerticalAlignment(VerticalAlignment.TOP);
-		style.setBorderTop(BorderStyle.HAIR);
-		style.setBorderRight(BorderStyle.HAIR);
-		style.setBorderBottom(BorderStyle.HAIR);
-		style.setBorderLeft(BorderStyle.HAIR);
-		style.setWrapText(true);
-
-		return style;
 	}
 
 	public void createCellsWithStyleInRange(int startRow, int endRow, int startCol, int endCol) {
@@ -122,8 +99,7 @@ public class CellOperations {
 			for (int j = startCol; j < endCol; j++) {
 				CellReference cellRef = new CellReference(i, j);
 				Cell cell = fetchOrCreateCell(cellRef);
-				CellStyle style = createCellStyle();
-				cell.setCellStyle(style);
+				cell.setCellStyle(CellStyles.getCellStyle(sheet, CellStyles.EMPTY_CELL_STYLE));
 			}
 		}
 	}

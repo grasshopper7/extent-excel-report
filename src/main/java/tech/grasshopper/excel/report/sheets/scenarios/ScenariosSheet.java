@@ -1,12 +1,15 @@
 package tech.grasshopper.excel.report.sheets.scenarios;
 
-import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.ITALIC_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.STATUS_BOLD_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellStyles.BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.FAIL_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.ITALIC_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.PASS_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.SKIP_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.STATUS_TEXT_BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.ValueOption.POSITIVE_NUMBER;
+import static tech.grasshopper.excel.report.cell.ValueOption.STATUS_TEXT;
+import static tech.grasshopper.excel.report.cell.ValueOption.VALUE;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellValueOptions;
+import tech.grasshopper.excel.report.cell.ValueOption;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.sheets.Sheet;
@@ -70,20 +73,32 @@ public class ScenariosSheet extends Sheet {
 			return row;
 		};
 
-		List<CellValueOptions> cellOptions = new ArrayList<>();
+		List<String> styles = new ArrayList<>();
 
-		cellOptions.add(BOLD_CELL_OPTIONS);
-		cellOptions.add(STATUS_BOLD_CELL_OPTIONS);
-		cellOptions.add(ITALIC_CELL_OPTIONS);
-		cellOptions.add(BOLD_CELL_OPTIONS);
-		cellOptions.add(STATUS_BOLD_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_STATUSPASSEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_STATUSFAILEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_STATUSSKIPPEDTEXTCOLOR_HORIZCENTER_CELL_OPTIONS);
+		styles.add(BOLD_CELL_STYLE);
+		styles.add(STATUS_TEXT_BOLD_CELL_STYLE);
+		styles.add(ITALIC_CELL_STYLE);
+		styles.add(BOLD_CELL_STYLE);
+		styles.add(STATUS_TEXT_BOLD_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(PASS_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(FAIL_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(SKIP_TEXTCOLOR_HORIZONTAL_CENTER_CELL_STYLE);
+
+		List<ValueOption> options = new ArrayList<>();
+
+		options.add(VALUE);
+		options.add(STATUS_TEXT);
+		options.add(VALUE);
+		options.add(VALUE);
+		options.add(STATUS_TEXT);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
 
 		scenarioTableOperations.writeTableCellValues(SCENARIOS_TABLE_NAME_CELL, reportData.getScenarioData(),
-				rowValueTransformer, cellOptions);
+				rowValueTransformer, styles, options);
 	}
 
 	private void refreshScenariosChartPlot() {

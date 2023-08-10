@@ -8,7 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import lombok.Builder;
 import tech.grasshopper.excel.report.cell.CellOperations;
-import tech.grasshopper.excel.report.cell.CellValueOptions;
+import tech.grasshopper.excel.report.cell.ValueOption;
 
 @Builder
 public class SimpleTableOperations<T> {
@@ -16,13 +16,13 @@ public class SimpleTableOperations<T> {
 	private XSSFSheet sheet;
 
 	public void writeTableCellValues(String startCell, List<T> tableData, Function<T, List<String>> rowValueTransformer,
-			List<CellValueOptions> valueOptions) {
+			List<String> styles, List<ValueOption> options) {
 
 		CellReference cellRef = new CellReference(startCell);
 		int startRow = cellRef.getRow();
 		int endRow = startRow + tableData.size();
 		int startColumn = cellRef.getCol();
-		int endColumn = startColumn + valueOptions.size();
+		int endColumn = startColumn + styles.size();
 
 		CellOperations cellOperations = CellOperations.builder().sheet(sheet).build();
 
@@ -35,7 +35,8 @@ public class SimpleTableOperations<T> {
 
 			for (int j = 0; j < rowValue.size(); j++) {
 
-				cellOperations.writeValue(new CellReference(i, startCol), rowValue.get(j), valueOptions.get(j));
+				cellOperations.writeValue(new CellReference(i, startCol), rowValue.get(j), styles.get(j),
+						options.get(j));
 				startCol++;
 			}
 		}

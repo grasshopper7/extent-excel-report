@@ -1,7 +1,9 @@
 package tech.grasshopper.excel.report.sheets.dashboard.components;
 
-import static tech.grasshopper.excel.report.cell.CellValueOptions.EMPTY_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellStyles.EMPTY_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.ValueOption.POSITIVE_NUMBER;
+import static tech.grasshopper.excel.report.cell.ValueOption.VALUE;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURES_FAIL_SKIP_SCENARIO_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.FEATURE_FAIL_SKIP_TABLE_NAME_CELL;
@@ -20,7 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellValueOptions;
+import tech.grasshopper.excel.report.cell.ValueOption;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
 import tech.grasshopper.excel.report.table.FeatureScenarioFailSkipTable;
@@ -73,16 +75,24 @@ public class FeatureScenarioFailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		List<CellValueOptions> cellOptions = new ArrayList<>();
+		List<String> styles = new ArrayList<>();
 
-		cellOptions.add(EMPTY_CELL_OPTIONS);
-		cellOptions.add(EMPTY_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		styles.add(EMPTY_CELL_STYLE);
+		styles.add(EMPTY_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+
+		List<ValueOption> options = new ArrayList<>();
+
+		options.add(VALUE);
+		options.add(VALUE);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
 
 		dbDataTableOperations.writeTableCellValues(FEATURE_FAIL_SKIP_TABLE_NAME_CELL, failSkipFeatures,
-				rowValueTransformer, cellOptions);
+				rowValueTransformer, styles, options);
 	}
 
 	private void refreshFeatureFailSkipChartPlot(List<FeatureData> failSkipFeatures) {
@@ -121,16 +131,24 @@ public class FeatureScenarioFailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		List<CellValueOptions> cellOptions = new ArrayList<>();
+		List<String> styles = new ArrayList<>();
 
-		cellOptions.add(EMPTY_CELL_OPTIONS);
-		cellOptions.add(EMPTY_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		styles.add(EMPTY_CELL_STYLE);
+		styles.add(EMPTY_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+
+		List<ValueOption> options = new ArrayList<>();
+
+		options.add(VALUE);
+		options.add(VALUE);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
 
 		dbDataTableOperations.writeTableCellValues(SCENARIO_FAIL_SKIP_TABLE_NAME_CELL, failSkipScenarios,
-				rowValueTransformer, cellOptions);
+				rowValueTransformer, styles, options);
 	}
 
 	private void refreshScenarioFailSkipChartPlot(List<ScenarioData> failSkipScenarios) {

@@ -37,8 +37,10 @@ public abstract class Sheet {
 	}
 
 	public void lockSheet() {
+
 		sheet.enableLocking();
 
 		sheet.protectSheet(RandomStringGenerator.generate());
+
 	}
 }

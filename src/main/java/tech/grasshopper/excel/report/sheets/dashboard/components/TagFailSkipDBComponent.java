@@ -1,7 +1,9 @@
 package tech.grasshopper.excel.report.sheets.dashboard.components;
 
-import static tech.grasshopper.excel.report.cell.CellValueOptions.EMPTY_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS;
+import static tech.grasshopper.excel.report.cell.CellStyles.EMPTY_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.HORIZONTAL_CENTER_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.ValueOption.POSITIVE_NUMBER;
+import static tech.grasshopper.excel.report.cell.ValueOption.VALUE;
 import static tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange.convertCellReferenceToChartDataRange;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAGS_FAIL_SKIP_SCENARIO_CHART;
 import static tech.grasshopper.excel.report.sheets.dashboard.DashboardSheet.TAG_TABLE_NAME_CELL;
@@ -14,13 +16,13 @@ import java.util.List;
 import java.util.function.Function;
 
 import lombok.experimental.SuperBuilder;
-import tech.grasshopper.excel.report.cell.CellValueOptions;
+import tech.grasshopper.excel.report.cell.ValueOption;
 import tech.grasshopper.excel.report.chart.ChartOperations;
 import tech.grasshopper.excel.report.chart.ChartOperations.ChartDataSeriesRange;
-import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.excel.report.table.AttributeFeatureScenarioTable;
-import tech.grasshopper.extent.data.SheetData.CountData;
+import tech.grasshopper.excel.report.table.SimpleTableOperations;
 import tech.grasshopper.extent.data.SheetData.AttributeCountData;
+import tech.grasshopper.extent.data.SheetData.CountData;
 
 @SuperBuilder
 public class TagFailSkipDBComponent extends DBComponent {
@@ -53,15 +55,22 @@ public class TagFailSkipDBComponent extends DBComponent {
 			return row;
 		};
 
-		List<CellValueOptions> cellOptions = new ArrayList<>();
+		List<String> styles = new ArrayList<>();
 
-		cellOptions.add(EMPTY_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
-		cellOptions.add(POSITIVENUMBER_HORIZCENTER_CELL_OPTIONS);
+		styles.add(EMPTY_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+		styles.add(HORIZONTAL_CENTER_CELL_STYLE);
+
+		List<ValueOption> options = new ArrayList<>();
+
+		options.add(VALUE);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
+		options.add(POSITIVE_NUMBER);
 
 		dbDataTableOperations.writeTableCellValues(TAG_TABLE_NAME_CELL, reportData.getFailSkipTagCountData(),
-				rowValueTransformer, cellOptions);
+				rowValueTransformer, styles, options);
 	}
 
 	private void refreshTagChartPlot() {

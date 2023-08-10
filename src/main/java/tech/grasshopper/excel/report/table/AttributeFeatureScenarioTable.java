@@ -1,8 +1,9 @@
 package tech.grasshopper.excel.report.table;
 
-import static tech.grasshopper.excel.report.cell.CellValueOptions.BOLD_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.STATUS_BOLD_CELL_OPTIONS;
-import static tech.grasshopper.excel.report.cell.CellValueOptions.getStatusColorCellValueOption;
+import static tech.grasshopper.excel.report.cell.CellStyles.STATUS_TEXT_BOLD_CELL_STYLE;
+import static tech.grasshopper.excel.report.cell.CellStyles.getStatusColorStyle;
+import static tech.grasshopper.excel.report.cell.ValueOption.STATUS_COLOR;
+import static tech.grasshopper.excel.report.cell.ValueOption.STATUS_TEXT;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,6 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import lombok.Builder;
 import lombok.Builder.Default;
 import tech.grasshopper.excel.report.cell.CellOperations;
+import tech.grasshopper.excel.report.cell.CellStyles;
+import tech.grasshopper.excel.report.cell.ValueOption;
 import tech.grasshopper.extent.data.pojo.Feature;
 import tech.grasshopper.extent.data.pojo.Scenario;
 
@@ -57,7 +60,8 @@ public class AttributeFeatureScenarioTable {
 			long tagMergeRowCount = features.stream().mapToLong(f -> f.getTotalScenarios()).sum();
 
 			cellOperations.mergeRows(currentRow, (int) tagMergeRowCount, currentCol, columnCellCount[0]);
-			cellOperations.writeValue(new CellReference(currentRow, currentCol), tag, BOLD_CELL_OPTIONS);
+			cellOperations.writeValue(new CellReference(currentRow, currentCol), tag, CellStyles.BOLD_CELL_STYLE,
+					ValueOption.VALUE);
 
 			// Move to feature name column
 			currentCol = currentCol + columnCellCount[0];
@@ -65,7 +69,7 @@ public class AttributeFeatureScenarioTable {
 			for (Feature feature : features) {
 				cellOperations.mergeRows(currentRow, (int) feature.getTotalScenarios(), currentCol, columnCellCount[1]);
 				cellOperations.writeValue(new CellReference(currentRow, currentCol), feature.getName(),
-						getStatusColorCellValueOption(feature.getStatus()));
+						getStatusColorStyle(feature.getStatus()), STATUS_COLOR);
 
 				// Move to scenario name column
 				currentCol = currentCol + columnCellCount[1];
@@ -74,14 +78,14 @@ public class AttributeFeatureScenarioTable {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
 					cellOperations.writeValue(new CellReference(currentRow, currentCol), scenario.getName(),
-							getStatusColorCellValueOption(scenario.getStatus()));
+							getStatusColorStyle(scenario.getStatus()), STATUS_COLOR);
 
 					// Move to scenario status column
 					currentCol = currentCol + columnCellCount[2];
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
 					cellOperations.writeValue(new CellReference(currentRow, currentCol),
-							scenario.getStatus().toString(), STATUS_BOLD_CELL_OPTIONS);
+							scenario.getStatus().toString(), STATUS_TEXT_BOLD_CELL_STYLE, STATUS_TEXT);
 
 					// Move BACK to scenario name column
 					currentCol = currentCol - columnCellCount[2];

@@ -1,6 +1,7 @@
 package tech.grasshopper.excel.report.table;
 
-import static tech.grasshopper.excel.report.cell.CellValueOptions.getStatusColorCellValueOption;
+import static tech.grasshopper.excel.report.cell.CellStyles.getStatusColorStyle;
+import static tech.grasshopper.excel.report.cell.ValueOption.STATUS_COLOR;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ExceptionsTable {
 
 			cellOperations.mergeRows(currentRow, (int) feature.getTotalSteps(), currentCol, columnCellCount[0]);
 			cellOperations.writeValue(new CellReference(currentRow, currentCol), feature.getName(),
-					getStatusColorCellValueOption(feature.getStatus()));
+					getStatusColorStyle(feature.getStatus()), STATUS_COLOR);
 
 			// Move to scenario name column
 			currentCol = currentCol + columnCellCount[0];
@@ -54,7 +55,7 @@ public class ExceptionsTable {
 
 				cellOperations.mergeRows(currentRow, (int) scenario.getTotalSteps(), currentCol, columnCellCount[1]);
 				cellOperations.writeValue(new CellReference(currentRow, currentCol), scenario.getName(),
-						getStatusColorCellValueOption(scenario.getStatus()));
+						getStatusColorStyle(scenario.getStatus()), STATUS_COLOR);
 
 				// Move to step\hook name column
 				currentCol = currentCol + columnCellCount[1];
@@ -63,14 +64,14 @@ public class ExceptionsTable {
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[2]);
 					cellOperations.writeValue(new CellReference(currentRow, currentCol), executable.getName(),
-							getStatusColorCellValueOption(executable.getStatus()));
+							getStatusColorStyle(executable.getStatus()), STATUS_COLOR);
 
 					// Move to stacktrace column
 					currentCol = currentCol + columnCellCount[2];
 
 					cellOperations.mergeRows(currentRow, 1, currentCol, columnCellCount[3]);
 					cellOperations.writeValue(new CellReference(currentRow, currentCol), executable.getErrorMessage(),
-							getStatusColorCellValueOption(executable.getStatus()));
+							getStatusColorStyle(executable.getStatus()), STATUS_COLOR);
 
 					// Move BACK to step\hook name column
 					currentCol = currentCol - columnCellCount[2];
